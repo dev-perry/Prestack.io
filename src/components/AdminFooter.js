@@ -10,7 +10,7 @@ function AdminFooter() {
     return (
       <>
         <Container fluid>
-          <footer className="footer pt-0">
+          <footer className="footer pt-0 pr-2 fixed-bottom">
             <Row className="align-items-center justify-content-lg-end">
               <Col>
                 <Nav className="nav-footer justify-content-center justify-content-lg-end">
