@@ -1,8 +1,11 @@
 import {combineReducers} from "redux";
 import auth from "./auth";
+import drive from "./drive";
+import ReduxStore from "@uppy/store-redux";
 
-const reducers = {auth};
+const reducers = {auth, drive};
 
 export default combineReducers({
-  ...reducers
+  ...reducers,
+  uppy: ReduxStore.reducer
 });
