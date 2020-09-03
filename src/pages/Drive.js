@@ -1,123 +1,52 @@
-import React from "react";
+import React, {useState} from "react";
+import classnames from "classnames";
+import Uploader from "../components/Uploader";
+import emptyDrive from "../graphics/emptyDrive.svg";
 
 import {
-  Card,
-  CardBody,
-  CardImg,
-  CardTitle,
-  CardText,
+  Button,
+  ButtonGroup
 } from "reactstrap";
 
 function Drive(props){
+  const [toggleView, setToggle] = useState({
+    button: 0
+  })
+  const [modal, setModal] = useState(false);
+
+  const handleClose = () => setModal(false);
+  const handleOpen = () => setModal(true);
 
   return (
       <>
-        <div className="card-columns mt-3 px-3 h-100">
-          <Card>
-            <CardImg
-              alt="..."
-              src={require("../assets/img/theme/img-1-1000x600.jpg")}
-              top
+        <div className="d-flex justify-content-between">
+          <Button onClick={handleOpen} className="mt-3 ml-5 rounded-pill channel-uploadbtn" color="success" type="button">
+            <i className="fas fa-plus"></i> Upload Media
+          </Button>
+          <ButtonGroup className="btn-group-toggle mt-3 mr-4" data-toggle="buttons">
+          <Button className={classnames({ active: toggleView.button === 0 })} color="secondary" onClick={() => setToggle({ button: 0 })}>
+            <input
+              autoComplete="off"
+              name="gridView"
+              type="radio"
+              value={toggleView.button === 0}
             />
-            <CardBody>
-              <CardTitle>Card title that wraps to a new line</CardTitle>
-              <CardText>
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
-              </CardText>
-            </CardBody>
-          </Card>
-          <Card className="p-3">
-            <CardBody className="blockquote mb-0">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Integer posuere erat a ante.
-              </p>
-              <footer className="blockquote-footer">
-                <small className="text-muted">
-                  Someone famous in{" "}
-                  <cite title="Source Title">Source Title</cite>
-                </small>
-              </footer>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardImg
-              alt="..."
-              src={require("../assets/img/theme/img-1-1000x600.jpg")}
-              top
+            <span><i className="fas fa-th-large pr-2"></i>Grid</span>
+          </Button>
+          <Button className={classnames({ active: toggleView.button === 1 })} color="secondary" onClick={() => setToggle({ button: 1 })}>
+            <input
+              autoComplete="off"
+              name="listView"
+              type="radio"
+              value={toggleView.button === 1}
             />
-            <CardBody>
-              <CardTitle>Card title</CardTitle>
-              <CardText>
-                This card has supporting text below as a natural lead-in to
-                additional content.
-              </CardText>
-              <CardText>
-                <small className="text-muted">Last updated 3 mins ago</small>
-              </CardText>
-            </CardBody>
-          </Card>
-          <Card className="bg-primary text-white text-center p-3">
-            <blockquote className="blockquote mb-0">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Integer posuere erat.
-              </p>
-              <footer className="blockquote-footer">
-                <small>
-                  Someone famous in{" "}
-                  <cite title="Source Title">Source Title</cite>
-                </small>
-              </footer>
-            </blockquote>
-          </Card>
-          <Card className="text-center">
-            <CardBody>
-              <CardTitle>Card title</CardTitle>
-              <CardText>
-                This card has a regular title and short paragraphy of text
-                below it.
-              </CardText>
-              <CardText>
-                <small className="text-muted">Last updated 3 mins ago</small>
-              </CardText>
-            </CardBody>
-          </Card>
-          <Card>
-            <CardImg
-              alt="..."
-              src={require("../assets/img/theme/img-1-1000x600.jpg")}
-            />
-          </Card>
-          <Card className="p-3 text-right">
-            <blockquote className="blockquote mb-0">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Integer posuere erat a ante.
-              </p>
-              <footer className="blockquote-footer">
-                <small className="text-muted">
-                  Someone famous in{" "}
-                  <cite title="Source Title">Source Title</cite>
-                </small>
-              </footer>
-            </blockquote>
-          </Card>
-          <Card>
-            <CardBody>
-              <CardTitle>Card title</CardTitle>
-              <CardText>
-                This is another card with title and supporting text below.
-                This card has some additional content to make it slightly
-                taller overall.
-              </CardText>
-              <CardText>
-                <small className="text-muted">Last updated 3 mins ago</small>
-              </CardText>
-            </CardBody>
-          </Card>
+            <span><i className="fas fa-list pr-2"></i>List</span>
+          </Button>
+        </ButtonGroup>
+        </div>
+        <div className="text-center">
+          <img className="w-50 " src={emptyDrive} alt="Empty Drive"/>
+          <Uploader modal={modal} handleClose={handleClose}/>
         </div>
       </>
     );
