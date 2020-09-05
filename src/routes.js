@@ -1,4 +1,5 @@
-import Drive from './pages/Drive';
+import Drive from "./pages/Drive";
+import Presentations from "./pages/Presentations"
 // {
 //   path: "/path-name",
 //   name: "Drive",
@@ -19,7 +20,7 @@ const routes = [
     path: "/presentations",
     name: "Presentations",
     icon: "fas fa-bolt",
-    component: null,
+    component: Presentations,
     layout: "admin"
   },
   {
