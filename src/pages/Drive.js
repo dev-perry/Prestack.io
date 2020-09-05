@@ -5,6 +5,7 @@ import classnames from "classnames";
 
 import {setDocumentData} from "../actions";
 import GridBuilder from "../layouts/GridBuilder";
+import ListBuilder from "../layouts/ListBuilder";
 import Uploader from "../components/Uploader";
 import emptyDrive from "../graphics/emptyDrive.svg";
 
@@ -39,7 +40,7 @@ function Drive(props){
         case 0:
           return <GridBuilder/>
         case 1:
-          return <div>List</div>
+          return <ListBuilder/>
         default:
           return <img className="w-50 " src={emptyDrive} alt="Empty Drive"/>
       }
