@@ -19,7 +19,7 @@ function GridBuilder(props){
 
   if(documents){
     return(
-      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2">
+      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
         {
           documents.map((doc, index) => (
             <div className="col mb-4" key={index}>
