@@ -138,7 +138,7 @@ class Sidebar extends React.Component {
           key={key}
         >
           <NavLink
-            to={prop.path}
+            to={`/u${prop.path}`}
             activeClassName=""
             onClick={this.closeSidenav}
             tag={NavLinkRRD}
