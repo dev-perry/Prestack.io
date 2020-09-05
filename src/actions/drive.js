@@ -1,13 +1,17 @@
 import firebase from "../firebase";
+import {addedToDrive} from "../firebase/actions";
 
 var storage = firebase.storage().ref();
+
+//Following for setting/clearing documents
+export const SET_DOCUMENTS = "SET_DOCUMENTS";
 
 //Following for async upload actions
 export const UPLOAD_REQUEST = "UPLOAD_REQUEST";
 export const UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
 export const UPLOAD_FAILURE = "UPLOAD_FAILURE";
 
-//Actions for drive reducer
+//Actions for upload reducer
 const requestUpload = () => {
   return{
     type: UPLOAD_REQUEST
@@ -25,6 +29,14 @@ const uploadFailure = (error) => {
   }
 }
 
+//Actions for document setting/clearing reducers
+const setDocuments = (docs) => {
+  return{
+    type: SET_DOCUMENTS,
+    docs
+  };
+}
+
 export const uploadFile = (files) => (dispatch, getState) => {
   //Indicate file upload is occurring
   dispatch(requestUpload());
@@ -37,6 +49,7 @@ export const uploadFile = (files) => (dispatch, getState) => {
     }
     storage.child(`users/${state.auth.user.uid}/drive/${file.name}`).put(file.data, metaData).then(function(snapshot){
       //Indicate file successfully uploaded
+      addedToDrive({uid:state.auth.user.uid, info:snapshot.metadata, type: snapshot.metadata.customMetadata.extension});
       dispatch(uploadSuccess());
     })
     .catch(function(error){
@@ -44,4 +57,8 @@ export const uploadFile = (files) => (dispatch, getState) => {
       dispatch(uploadFailure(error));
     })
   });
+}
+
+export const setDocumentData = (docs) => dispatch => {
+  dispatch(setDocuments((docs)));
 }
