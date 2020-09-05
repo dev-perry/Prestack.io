@@ -1,12 +1,14 @@
 import{
   UPLOAD_REQUEST,
   UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
+  UPLOAD_FAILURE,
+  SET_DOCUMENTS
 } from "../actions";
 
 export default(state = {
   isUploading: false,
-  uploadFailure: false
+  uploadFailure: false,
+  documents: []
 }, action) => {
   switch (action.type) {
     case UPLOAD_REQUEST:
@@ -26,6 +28,11 @@ export default(state = {
         ...state,
         isUploading: false,
         uploadFailure: true
+      }
+    case SET_DOCUMENTS:
+      return{
+        ...state,
+        documents: action.docs
       }
     default:
       return state
