@@ -14,8 +14,8 @@ function ListBuilder(props){
 
     return(
       <ListGroup className="list my--3 pl-4 pt-3">
-        {documents.map((doc, index) => (
-          <ListGroupItem key={index}>
+        {documents.map((doc) => (
+          <ListGroupItem key={doc.id}>
             <Row className="align-items-center">
               <Col className="col-auto">
                 <img
@@ -25,7 +25,7 @@ function ListBuilder(props){
               </Col>
               <div className="col">
                 <small>Name:</small>
-                <h5 className="mb-0">{doc.id}</h5>
+                <h5 className="mb-0">{doc.data.name}</h5>
               </div>
               <div className="col">
                 <small>Size:</small>

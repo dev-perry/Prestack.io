@@ -16,8 +16,8 @@ function GridBuilder(props){
     return(
       <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
         {
-          documents.map((doc, index) => (
-            <div className="col mb-4" key={index}>
+          documents.map((doc) => (
+            <div className="col mb-4" key={doc.id}>
               <Card className="h-100">
                  <CardImg
                    alt="File thumbnail"
@@ -25,7 +25,7 @@ function GridBuilder(props){
                    top
                  />
                  <CardBody>
-                   <CardTitle>{doc.id}</CardTitle>
+                   <CardTitle>{doc.data.name}</CardTitle>
                      <small className="text-muted">Uploaded on {getDate(doc.data.uploaded)}</small>
                  </CardBody>
                </Card>

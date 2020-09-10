@@ -33,7 +33,7 @@ function TileBuilder(props){
       {
         presentations.map((doc) => (
           <div className="col mb-4" key={doc.id}>
-            <Card className="bg-default text-white text-center p-3">
+            <Card className="bg-default text-white text-center p-3 h-100">
               <CardBody>
                 <CardTitle>{doc.data.title}</CardTitle>
                 <CardText>
