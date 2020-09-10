@@ -11,7 +11,7 @@ import '@uppy/dashboard/dist/style.css'
 function Uploader(props){
   const {upload} = props;
   const uppy = useMemo(()=>{
-    return Uppy({
+    return new Uppy({
       store: ReduxStore({
         store: store,
         id: 'uploader'
@@ -20,6 +20,7 @@ function Uploader(props){
         allowedFileTypes: [
           '.docx',
           '.doc',
+          '.ppt',
           '.pptx',
           '.pdf',
           '.jpeg',
@@ -31,20 +32,25 @@ function Uploader(props){
           '.mp4'
         ]
       },
-      autoProceed: false
+      logger: Uppy.debugLogger,
+      allowMultipleUploads: false
     })
+    .on('upload-success', (file, response)=>{
+      // upload(result.successful);
+      // uppy.reset();
+      console.log(file.name, response.upload);
+    })
+    .on('complete', (result) => {
+      upload(result.successful)
+      uppy.reset();
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(()=>{
     return() => uppy.close()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[uppy])
-
-  uppy.on('complete', (result)=>{
-    upload(result.successful);
-    uppy.reset();
-    // console.log(result.successful);
-  })
+  },[])
 
   return(
     <div>
@@ -54,7 +60,7 @@ function Uploader(props){
       onRequestClose={props.handleClose}
       proudlyDisplayPoweredByUppy={false}
       closeAfterFinish={true}
-      showProgressDetails={true}
+      closeModalOnClickOutside
       trigger=".channel-uploadbtn"
     />
   </div>
