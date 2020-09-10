@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
 //reactstrap componenets
 import {
   Card,
@@ -8,16 +8,11 @@ import {
   CardImg,
 } from "reactstrap";
 
+import {getDate} from "../firebase/actions";
+
 function GridBuilder(props){
   const {documents} = props;
 
-  function getDate(date){
-    const options = {month: 'short', year: 'numeric', day: 'numeric' }
-    var dateStamp = new Date(date.seconds * 1000);
-    return dateStamp.toLocaleDateString(undefined, options);
-  }
-
-  if(documents){
     return(
       <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
         {
@@ -39,16 +34,14 @@ function GridBuilder(props){
         }
       </div>
     )
-  }
-  else{
-    return null
-  }
 }
 
-function mapStateToProps(state){
-  return{
-    documents: state.drive.documents
-  };
-}
+// function mapStateToProps(state){
+//   return{
+//     documents: state.drive.documents
+//   };
+// }
+//
+// export default connect(mapStateToProps)(GridBuilder);
 
-export default connect(mapStateToProps)(GridBuilder);
+export default GridBuilder;

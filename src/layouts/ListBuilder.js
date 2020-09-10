@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
 //reactstrap componenets
 import {
   ListGroupItem,
@@ -7,17 +7,11 @@ import {
   Row,
   Col
 } from "reactstrap";
+import {getDate} from "../firebase/actions";
 
 function ListBuilder(props){
   const {documents} = props;
 
-  function getDate(date){
-    const options = {month: 'short', year: 'numeric', day: 'numeric' }
-    var dateStamp = new Date(date.seconds * 1000);
-    return dateStamp.toLocaleDateString(undefined, options);
-  }
-
-  if(documents){
     return(
       <ListGroup className="list my--3 pl-4 pt-3">
         {documents.map((doc, index) => (
@@ -46,16 +40,15 @@ function ListBuilder(props){
         ))}
         </ListGroup>
     )
-  }else{
-    return null
-  }
 
 }
 
-function mapStateToProps(state){
-  return{
-    documents: state.drive.documents
-  }
-}
+// function mapStateToProps(state){
+//   return{
+//     documents: state.drive.documents
+//   }
+// }
+//
+// export default connect(mapStateToProps)(ListBuilder);
 
-export default connect(mapStateToProps)(ListBuilder);
+export default ListBuilder;
