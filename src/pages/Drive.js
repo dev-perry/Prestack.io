@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import firebase from "../firebase";
 import classnames from "classnames";
 
-import {setDocumentData} from "../actions";
 import GridBuilder from "../layouts/GridBuilder";
 import ListBuilder from "../layouts/ListBuilder";
 import Uploader from "../components/Uploader";
@@ -15,7 +14,8 @@ import {
 } from "reactstrap";
 
 function Drive(props){
-  const {user, setData, documents} = props;
+  const {user} = props;
+  const [documents, setDocs] = useState([]);
 
   const [toggleView, setToggle] = useState({
     grid: 0
@@ -25,35 +25,22 @@ function Drive(props){
   const handleClose = () => setModal(false);
   const handleOpen = () => setModal(true);
 
-  var unsubscribe = firebase.firestore().collection("users").doc(user.uid)
-                  .collection("drive").onSnapshot(function(snapshot){
-                    var data = [];
-                    snapshot.forEach(function(doc){
-                      data.push({id: doc.id, data: doc.data()});
-                    })
-                    setData(data);
-                  })
-
-  function renderDocs(layout){
-    if(documents){
-      switch (layout.grid) {
-        case 0:
-          return <GridBuilder/>
-        case 1:
-          return <ListBuilder/>
-        default:
-          return <img className="w-50 " src={emptyDrive} alt="Empty Drive"/>
-      }
-    }else{
-      return <img className="w-50 " src={emptyDrive} alt="Empty Drive"/>
-    }
-  }
-
   useEffect(() => {
 
-    return () => unsubscribe();
+    var unsubscribe = firebase.firestore().collection("users").doc(user.uid)
+                    .collection("drive").onSnapshot(function(snapshot){
+                      var data = [];
+                        snapshot.forEach(function(doc){
+                          data.push({id: doc.id, data: doc.data()});
+                        });
+                      setDocs(data);
+                    })
+
+    return function cleanup(){
+      unsubscribe();
+    };
   // eslint-disable-next-line
-  }, [])
+}, [])
 
   return (
       <>
@@ -83,24 +70,27 @@ function Drive(props){
         </ButtonGroup>
         </div>
         <div className="px-3 pt-4 overflow-auto">
-          {renderDocs(toggleView)}
           <Uploader modal={modal} handleClose={handleClose}/>
+          {
+            Array.isArray(documents) || documents.length ?
+            (toggleView.grid === 0 ? <GridBuilder documents={documents}/> : <ListBuilder documents={documents}/>):
+            <img src={emptyDrive} alt="Empty Drive"/>
+          }
         </div>
       </>
     );
-  }
+}
 
   function mapStateToProps(state){
     return{
-      user: state.auth.user,
-      documents: state.drive.documents
+      user: state.auth.user
     };
   }
 
-  const mapDispatchToProps = dispatch => {
-    return{
-      setData: (docs) => dispatch(setDocumentData(docs)),
-    }
-  }
+  // const mapDispatchToProps = dispatch => {
+  //   return{
+  //     setData: (docs) => dispatch(setDocumentData(docs)),
+  //   }
+  // }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Drive);
+export default connect(mapStateToProps)(Drive);
