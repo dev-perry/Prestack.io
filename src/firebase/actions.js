@@ -21,6 +21,6 @@ export const providerSignIn = (provider) => dispatch => {
 }
 
 //For user document creation
-export const createUserDoc = firebase.functions().httpsCallable('createUserDoc');
+export const createUserDoc = firebase.functions().httpsCallable('users-createUserDoc');
 //For drive document creation
-export const addedToDrive = firebase.functions().httpsCallable('addedToDrive');
+export const addedToDrive = firebase.functions().httpsCallable('drive-addedToDrive');
