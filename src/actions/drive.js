@@ -3,9 +3,6 @@ import {addedToDrive} from "../firebase/actions";
 
 var storage = firebase.storage().ref();
 
-//Following for setting/clearing documents
-export const SET_DOCUMENTS = "SET_DOCUMENTS";
-
 //Following for async upload actions
 export const UPLOAD_REQUEST = "UPLOAD_REQUEST";
 export const UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
@@ -29,14 +26,6 @@ const uploadFailure = (error) => {
   }
 }
 
-//Actions for document setting/clearing reducers
-const setDocuments = (docs) => {
-  return{
-    type: SET_DOCUMENTS,
-    docs
-  };
-}
-
 export const uploadFile = (files) => (dispatch, getState) => {
   //Indicate file upload is occurring
   dispatch(requestUpload());
@@ -57,8 +46,4 @@ export const uploadFile = (files) => (dispatch, getState) => {
       dispatch(uploadFailure(error));
     })
   });
-}
-
-export const setDocumentData = (docs) => dispatch => {
-  dispatch(setDocuments((docs)));
 }
