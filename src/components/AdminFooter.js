@@ -19,7 +19,7 @@ function AdminFooter() {
                       href="#pablo"
                       target="_blank"
                     >
-                      © {currentYear}{" "}TOZME Inc.
+                      © {currentYear}{" "}TOZME
                     </NavLink>
                   </NavItem>
                   <NavItem>
