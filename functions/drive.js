@@ -1,5 +1,6 @@
 //Imports
 const algoliasearch = require('algoliasearch');
+const {v4: uuidv4} = require('uuid');
 
 //Firebase stuff
 const functions = require('firebase-functions');
@@ -19,7 +20,6 @@ exports.addedToDrive = functions.https.onCall((data) => {
   var nickname = data.info.name.split(".");
   return admin.firestore().collection('users').doc(data.uid).collection('drive')
   .doc(data.info.name).set({
-    name: nickname[0],
     uploaded: new Date(data.info.timeCreated),
     size: data.info.size,
     type: data.type
@@ -32,7 +32,9 @@ exports.onDocCreated = functions.firestore.document('users/{userID}/drive/{docID
   //get the document object
   const doc = snap.data();
   //create 'objectID field' for Algolia
-  doc.objectID = context.params.docID;
+  doc.objectID = uuidv4();
+  doc.name = context.params.docID;
+  doc.owner = context.params.userID;
   //Write to algolia index
   const index = client.initIndex(ALGOLIA_INDEX_NAME);
   return index.saveObject(doc);
