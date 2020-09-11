@@ -25,7 +25,7 @@ function GridBuilder(props){
                    top
                  />
                  <CardBody>
-                   <CardTitle>{doc.data.name}</CardTitle>
+                   <CardTitle>{doc.id}</CardTitle>
                      <small className="text-muted">Uploaded on {getDate(doc.data.uploaded)}</small>
                  </CardBody>
                </Card>
