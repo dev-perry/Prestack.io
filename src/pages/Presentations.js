@@ -4,7 +4,7 @@ import firebase from "../firebase";
 import {Button} from "reactstrap";
 import {connect} from "react-redux";
 import noPresentations from "../graphics/noPresentations.svg";
-import PresentationBuilder from "../components/PresentationBuilder";
+import PresentationCreator from "../components/PresentationCreator";
 import TileBuilder from "../layouts/TileBuilder";
 
 function Presentations(props){
@@ -42,7 +42,7 @@ function Presentations(props){
         </Button>
       </div>
       <div className="px-3 pt-4 overflow-auto">
-        <PresentationBuilder open={modal} toggle={toggleModal}/>
+        <PresentationCreator open={modal} toggle={toggleModal}/>
         {
           Array.isArray(presentations) || presentations.length ?
           <TileBuilder presentations={presentations}/> :

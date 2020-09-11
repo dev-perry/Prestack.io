@@ -13,7 +13,7 @@ import {
 
 import {createPresentation} from "../actions";
 
-function PresentationBuilder(props){
+function PresentationCreator(props){
   const {create} = props;
 
   function handleSubmit(e){
@@ -105,4 +105,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PresentationBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(PresentationCreator);
