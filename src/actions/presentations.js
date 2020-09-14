@@ -2,12 +2,21 @@ import firebase from "../firebase";
 
 var db = firebase.firestore();
 
+//Following for setting current presentation
+export const SET_PRES = "SET_PRES";
 
 //Following for presentation creation
 export const CREATE_REQUEST = "CREATE_REQUEST";
 export const CREATE_SUCCESS = "CREATE_SUCCESS";
 export const CREATE_FAILURE = "CREATE_FAILURE";
 
+//Action for setting presentation
+const setPres = (pres) => {
+  return{
+    type: SET_PRES,
+    pres
+  }
+}
 
 //Actions for creation
 const requestCreate = () => {
@@ -26,6 +35,12 @@ const requestFailure = (error) => {
     type: CREATE_FAILURE,
     error
   }
+}
+
+//Action creator for setting presentation
+export const setPresentation = pres => dispatch =>{
+  //set reducer
+  dispatch(setPres(pres));
 }
 
 //Action creator for presentation creation
