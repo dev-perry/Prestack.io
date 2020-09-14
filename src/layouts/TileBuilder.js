@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import {connect} from "react-redux";
 import {
   Card,
   CardBody,
@@ -6,6 +7,8 @@ import {
   CardText
 }from "reactstrap";
 
+import {setPresentation} from "../actions";
+import PresentationEditor from "../components/PresentationEditor";
 import {getDate} from "../firebase/actions";
 
 //Selecting random colors
@@ -26,14 +29,27 @@ import {getDate} from "../firebase/actions";
 // };
 
 function TileBuilder(props){
-  const {presentations} = props;
+  const {presentations, setPres} = props;
+  const [modal, toggleModal] = useState(false);
 
   return(
+    <>
+      <PresentationEditor open={modal} toggle={toggleModal}/>
     <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
       {
         presentations.map((doc) => (
           <div className="col mb-4" key={doc.id}>
-            <Card className="bg-default text-white text-center p-3 h-100">
+            <Card
+              onClick={()=>{
+                setPres({
+                  title: doc.data.title,
+                  desc: doc.data.desc,
+                  sequence: doc.data.sequence
+                });
+                toggleModal(true)
+              }}
+              className="bg-default text-white text-center p-3 h-100"
+              >
               <CardBody>
                 <CardTitle>{doc.data.title}</CardTitle>
                 <CardText>
@@ -48,7 +64,14 @@ function TileBuilder(props){
          ))
       }
     </div>
+  </>
   )
 }
 
-export default TileBuilder;
+const mapDispatchToProps = dispatch => {
+  return{
+    setPres: (pres) => dispatch(setPresentation(pres))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(TileBuilder);
