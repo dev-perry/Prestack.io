@@ -1,15 +1,13 @@
 import React from "react";
 //reactstrap components
 import {
-  Badge,
+  Row,
+  Col,
   Card,
   CardTitle,
-  CardBody,
-  CardFooter,
-  Container,
-  Row,
-  Col
+  CardBody
 } from "reactstrap";
+import {Droppable, Draggable} from "react-beautiful-dnd";
 
 function ModuleList(props){
   const {modules} = props;
@@ -31,25 +29,48 @@ function ModuleList(props){
 
 
   return(
-    <div className="d-flex flex-wrap align-items-start">
-      {
-        modules.map(function(module,position){
-          return (
-              <Card className="card w-25 text-center px-3" key={position}>
-                <CardBody>
-                  <CardTitle>{iconLoader(module.type)}{module.name}</CardTitle>
-                </CardBody>
-                <CardFooter>
-                  <Badge>
-                    {position + 1}
-                  </Badge>
-                </CardFooter>
-            </Card>
+      <Droppable droppableId="presEditField">
+        {
+          (provided) => (
+            <div
+              className="text-center"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              >
+              {
+                modules.map(function(module,position){
+                  return (
+                    <Draggable draggableId={"prescomp"+position} index={position} key={position}>
+                      {(provided)=>(
+                        <Card
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          innerRef={provided.innerRef}
+                          className="card text-center w-75 mx-auto">
+                          <CardBody>
+                            <Row>
+                              <Col className="col-auto">
+                                <div className="icon icon-shape bg-info text-white rounded-circle shadow">
+                                  {position + 1}
+                                </div>
+                              </Col>
+                              <div className="col">
+                                <CardTitle>{iconLoader(module.type)}{module.label}</CardTitle>
+                              </div>
+                            </Row>
+                          </CardBody>
+                      </Card>
+                      )}
+                    </Draggable>
+                  )
+                })
+              }
+              {provided.placeholder}
+            </div>
           )
-        })
-      }
-    </div>
-  )
+        }
+      </Droppable>
+    )
 }
 
 export default ModuleList;
