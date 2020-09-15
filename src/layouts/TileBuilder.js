@@ -35,7 +35,7 @@ function TileBuilder(props){
   return(
     <>
       <PresentationEditor open={modal} toggle={toggleModal}/>
-    <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+    <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4 overflow-auto">
       {
         presentations.map((doc) => (
           <div className="col mb-4" key={doc.id}>
