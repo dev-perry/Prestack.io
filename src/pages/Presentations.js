@@ -41,7 +41,7 @@ function Presentations(props){
           <i className="fas fa-plus"></i> New Presentation
         </Button>
       </div>
-      <div className="px-3 pt-4 overflow-auto">
+      <div className="px-3 pt-4">
         <PresentationCreator open={modal} toggle={toggleModal}/>
         {
           Array.isArray(presentations) || presentations.length ?
