@@ -12,12 +12,6 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Media,
   Navbar,
   NavItem,
@@ -25,6 +19,8 @@ import {
   Nav,
   Container
 } from "reactstrap";
+
+import SearchBar from "./SearchBar";
 
 function AdminNavbar(props){
   const {user, logout} = props;
@@ -65,32 +61,7 @@ function AdminNavbar(props){
         >
           <Container fluid>
             <Collapse navbar isOpen={true}>
-              <Form
-                className={classnames(
-                  "navbar-search form-inline mr-sm-3",
-                  { "navbar-search-light": props.theme === "dark" },
-                  { "navbar-search-dark": props.theme === "light" }
-                )}
-              >
-                <FormGroup className="mb-0">
-                  <InputGroup className="input-group-alternative input-group-merge">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="fas fa-search" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Search" type="text" />
-                  </InputGroup>
-                </FormGroup>
-                <button
-                  aria-label="Close"
-                  className="close"
-                  type="button"
-                  onClick={closeSearch}
-                >
-                  <span aria-hidden={true}>×</span>
-                </button>
-              </Form>
+              <SearchBar theme={props.theme} closeSearch={closeSearch}/>
 
               <Nav className="align-items-center ml-md-auto" navbar>
                 <NavItem className="d-xl-none">
