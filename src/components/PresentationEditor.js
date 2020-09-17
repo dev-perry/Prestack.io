@@ -4,6 +4,7 @@ import {Modal, Button} from "reactstrap";
 import {DragDropContext} from "react-beautiful-dnd";
 
 import ModuleList from "../layouts/ModuleList";
+import modules from "../modules";
 import {setPresentation} from "../actions";
 import emptySequence from "../graphics/emptySequence.svg";
 
@@ -38,7 +39,6 @@ function PresentationEditor(props) {
       return;
     }
     const resultArray = build;
-    console.log(resultArray)
     const movedPart = build[source.index];
     resultArray.splice(source.index, 1);
     resultArray.splice(destination.index, 0, movedPart);
@@ -74,54 +74,20 @@ function PresentationEditor(props) {
       <div className="border-top">
         <div className="py-2 text-center">Add modules:</div>
         <div className="d-flex w-90 justify-content-center">
-          <Button onClick={()=>{
-            addtoBuild({
-              tag: "ijdsjklaejdfealj",
-              type: "drive",
-              label: "Drive Asset"
+          {
+            modules.map(function(module, index){
+              return (
+                <Button key={index} onClick={()=>{
+                        addtoBuild(module.build)
+                        }}
+                        className="rounded-pill" color="default" outline="outline">
+                        <span>
+                          <i className={`${module.icon} pr-2`}></i>{module.label}
+                        </span>
+                  </Button>
+                );
             })
-          }}
-          className="rounded-pill" color="default" outline="outline">
-            <span>
-              <i className="fas fa-hdd pr-2"></i>Drive Asset
-            </span>
-          </Button>
-          <Button
-            onClick={()=>{
-              addtoBuild({
-                tag: "fjkleila.skdue",
-                type: "internet",
-                label: "Webpage View"
-              })
-            }}
-            className="rounded-pill" color="default" outline="outline">
-            <span>
-              <i className="fas fa-globe pr-2"></i>Webpage</span>
-          </Button>
-          <Button
-            onClick={()=>{
-              addtoBuild({
-                tag: "powjfljeiali",
-                type: "youtube",
-                label: "YouTube Video"
-              })
-            }}
-            className="rounded-pill" color="default" outline="outline">
-            <span>
-              <i className="fab fa-youtube pr-2"></i>YouTube Video</span>
-          </Button>
-          <Button
-            onClick={()=>{
-              addtoBuild({
-                tag: "lamdjejfnmalj",
-                type: "participation",
-                label: "Participation Module"
-              })
-            }}
-            className="rounded-pill" color="default" outline="outline">
-            <span>
-              <i className="fas fa-user-check pr-2"></i>Participation</span>
-          </Button>
+          }
         </div>
       </div>
       <div className="modal-footer">
