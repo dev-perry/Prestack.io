@@ -8,6 +8,7 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  GET_SEARCH_KEY,
   VERIFY_REQUEST,
   VERIFY_SUCCESS
 } from "../actions/";
@@ -24,6 +25,7 @@ export default (state={
   isAuthenticated: false,
   verifyingError: false,
   user: {},
+  searchKey: ""
 }, action)=>{
   switch(action.type){
     case LOGIN_REQUEST:
@@ -57,7 +59,8 @@ export default (state={
           ...state,
           isLoggingOut: false,
           isAuthenticated: false,
-          user: {}
+          user: {},
+          searchKey: ""
         };
       case LOGOUT_FAILURE:
         return{
@@ -83,6 +86,11 @@ export default (state={
           isSigningUp: false,
           signupError: true
         };
+      case GET_SEARCH_KEY:
+        return{
+          ...state,
+          searchKey: action.key
+        }
       case VERIFY_REQUEST:
         return{
           ...state,
