@@ -1,5 +1,7 @@
 import firebase from "../firebase";
 import {providerSignIn, createUserDoc} from  "../firebase/actions";
+const PROJECT_ID = process.env.REACT_APP_FIREBASE_ID;
+
 //providers
 var facebook = new firebase.auth.FacebookAuthProvider();
 var google = new firebase.auth.GoogleAuthProvider();
@@ -18,6 +20,9 @@ export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+
+//Get search key
+export const GET_SEARCH_KEY = "GET_SEARCH_KEY";
 
 //Listener for auth state changes
 export const VERIFY_REQUEST = "VERIFY_REQUEST";
@@ -77,6 +82,14 @@ const signUpError = error =>{
     type: SIGNUP_FAILURE
   };
 };
+
+//For search key
+const getSearchKey = key => {
+  return{
+    type: GET_SEARCH_KEY,
+    key
+  }
+}
 
 //Auth state changes actions
 const verifyRequest = ()=>{
@@ -161,6 +174,20 @@ export const verifyAuth = () => dispatch => {
     if(user !== null){
       //dispatch receiveLogin if user session already exists, which passes user object as payload
       dispatch(receiveLogin(user));
+      //Get and set the searchkey
+      user.getIdToken()
+        .then(function(token){
+          //Send token to cloud function
+          return fetch('https://us-central1-' + PROJECT_ID + '.cloudfunctions.net/search-getSearchKey/', {
+            headers: {Authorization: 'Bearer ' + token}
+          });
+        })
+        .then(function(res){
+          //Get stream from getch to cloud functions
+          return res.json();
+        }).then(function(data){
+          dispatch(getSearchKey(data.key));
+        })
     }
     //dispatch verifySuccess, nothing occurs if no user exists
     dispatch(verifySuccess());
