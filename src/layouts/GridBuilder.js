@@ -7,12 +7,42 @@ import {
   CardBody,
   CardImg,
 } from "reactstrap";
+import {connect} from "react-redux";
 
 import {getDate} from "../firebase/actions";
 
 function GridBuilder(props){
-  const {documents} = props;
+  const {documents, searching, searchResults} = props;
 
+  const getAlgoliaDate = (date) => {
+      const options = {month: 'short', year: 'numeric', day: 'numeric' }
+      var dateStamp = new Date(date._seconds * 1000);
+      return dateStamp.toLocaleDateString(undefined, options);
+    }
+
+  if(searching && searchResults.length > 0){
+    return(
+      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+        {
+          searchResults.map((hit) => (
+            <div className="col mb-4" key={hit.name}>
+              <Card className="h-100">
+                 <CardImg
+                   alt="File thumbnail"
+                   src={require("../assets/img/theme/img-1-1000x600.jpg")}
+                   top
+                 />
+                 <CardBody>
+                   <CardTitle>{hit.name}</CardTitle>
+                     <small className="text-muted">Uploaded on {getAlgoliaDate(hit.uploaded)}</small>
+                 </CardBody>
+               </Card>
+            </div>
+           ))
+        }
+      </div>
+    )
+  }else{
     return(
       <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
         {
@@ -34,14 +64,14 @@ function GridBuilder(props){
         }
       </div>
     )
+  }
 }
 
-// function mapStateToProps(state){
-//   return{
-//     documents: state.drive.documents
-//   };
-// }
-//
-// export default connect(mapStateToProps)(GridBuilder);
+function mapStateToProps(state) {
+  return {
+    searchResults: state.search.searchResults,
+    searching: state.search.isSearching
+  }
+}
 
-export default GridBuilder;
+export default connect(mapStateToProps)(GridBuilder);
