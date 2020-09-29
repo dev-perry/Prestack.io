@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   Form,
   FormGroup,
@@ -8,16 +8,11 @@ import {
   InputGroupText
 } from "reactstrap";
 import {
-  // connectSearchBox,
   connectAutoComplete,
-  connectStateResults,
-  // connectHits,
-  InstantSearch,
-  Hits
-  // Index,
-  // Configure,
+  InstantSearch
 } from "react-instantsearch-dom";
 // import Autosuggest from "react-autosuggest";
+import {hitList, searchState} from "../actions";
 import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -27,11 +22,18 @@ import algoliasearch from "algoliasearch/lite";
 const ALGOLIA_ID = process.env.REACT_APP_ALGOLIA_ID;
 
 function SearchBar(props) {
-  const {searchKey} = props;
+  const {
+    searchKey,
+    searching,
+    setHits,
+    setSearching
+  } = props;
 
   const [index, setIndex] = useState('drive');
-
   let location = useLocation();
+
+  const client = algoliasearch(ALGOLIA_ID, searchKey);
+
 
   const collectionSearch = () => {
     switch (location.pathname) {
@@ -46,26 +48,29 @@ function SearchBar(props) {
     }
   }
 
-  const Results = connectStateResults(({ searchState, searchResults, children }) =>
-  searchState && searchState.query ? (
-        searchResults && searchResults.nbHits !== 0 ? (
-          children
-        ) : (
-          <div>No matching results.</div>
-        )
-  ) : (
-    null
-  )
-);
-
   const SearchBox = ({currentRefinement, refine, hits}) => {
+    const [results, resultsChange] = useState([]);
+    useEffect(()=>{
+      setHits(results);
+    }, [results])
+
+    function handleChange(e){
+      refine(e.currentTarget.value);
+      resultsChange(hits);
+    }
 
     return (
-        <Form role="search" className={classnames("navbar-search form-inline mr-sm-3", {
+        <Form
+          role="search"
+          className={classnames("navbar-search form-inline mr-sm-3", {
             "navbar-search-light": props.theme === "dark"
           }, {
             "navbar-search-dark": props.theme === "light"
-          })}>
+          })}
+          onSubmit={e => {
+            e.preventDefault();
+          }}
+          >
           <FormGroup className="mb-0">
             <InputGroup className="input-group-alternative input-group-merge">
               <InputGroupAddon addonType="prepend">
@@ -77,12 +82,13 @@ function SearchBar(props) {
                 placeholder={`Search ${collectionSearch()}`}
                 type="search"
                 value={currentRefinement}
-                onChange={e => refine(e.currentTarget.value)}/>
+                onChange={e => handleChange(e)}
+                onFocus={()=> setSearching(true)}
+                onBlur={()=> setSearching(false)}
+              />
             </InputGroup>
+            {(searching && hits.length === 0) && <div>No matching results.</div>}
           </FormGroup>
-          <Results>
-            <Hits/>
-          </Results>
           <button aria-label="Close" className="close" type="button" onClick={props.closeSearch}>
             <span aria-hidden={true}>×</span>
           </button>
@@ -90,20 +96,30 @@ function SearchBar(props) {
   )
   }
 
-  const SearchBar = connectAutoComplete(SearchBox);
-
-  const client = algoliasearch(ALGOLIA_ID, searchKey);
+  const SearchField = connectAutoComplete(SearchBox);
 
   return (
-    <InstantSearch searchClient={client} indexName={index}>
-    <SearchBar/>
+    <InstantSearch className="position-absolute" searchClient={client} indexName={index}>
+    <SearchField
+      searchAsYouType={false}
+    />
   </InstantSearch>
 )
 
 }
 
 function mapStateToProps(state) {
-  return {searchKey: state.auth.searchKey}
+  return {
+    searchKey: state.auth.searchKey,
+    searching: state.search.isSearching
+  }
 }
 
-export default connect(mapStateToProps)(SearchBar);
+const mapDispatchToProps = dispatch => {
+  return {
+    setHits: (hits) => dispatch(hitList(hits)),
+    setSearching: (state) => dispatch(searchState(state))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
