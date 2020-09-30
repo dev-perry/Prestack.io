@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // import {connect} from "react-redux";
 //reactstrap componenets
 import {
@@ -7,12 +7,22 @@ import {
   CardBody,
   CardImg,
 } from "reactstrap";
+import DocPreview from "../components/DocPreview";
 import {connect} from "react-redux";
 
 import {getDate} from "../firebase/actions";
+import {loadFile} from "../actions";
 
 function GridBuilder(props){
-  const {documents, searching, searchResults} = props;
+  const {documents, searching, searchResults, getFile} = props;
+
+  const [modal, setModal] = useState(false);
+
+  const handleOpen = (e) => {
+    getFile(e.currentTarget.dataset.filename)
+    setModal(true)
+  };
+
 
   const getAlgoliaDate = (date) => {
       const options = {month: 'short', year: 'numeric', day: 'numeric' }
@@ -23,10 +33,11 @@ function GridBuilder(props){
   if(searching && searchResults.length > 0){
     return(
       <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+        <DocPreview open={modal} toggle={setModal}/>
         {
-          searchResults.map((hit) => (
-            <div className="col mb-4" key={hit.name}>
-              <Card className="h-100">
+          searchResults.map((hit, index) => (
+            <div className="col mb-4" key={index}>
+              <Card className="h-100" data-filename={hit.name} onClick={handleOpen}>
                  <CardImg
                    alt="File thumbnail"
                    src={require("../assets/img/theme/img-1-1000x600.jpg")}
@@ -45,10 +56,11 @@ function GridBuilder(props){
   }else{
     return(
       <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+        <DocPreview open={modal} toggle={setModal}/>
         {
-          documents.map((doc) => (
-            <div className="col mb-4" key={doc.id}>
-              <Card className="h-100">
+          documents.map((doc, index) => (
+            <div className="col mb-4" key={index}>
+              <Card className="h-100" data-filename={doc.id} onClick={handleOpen}>
                  <CardImg
                    alt="File thumbnail"
                    src={require("../assets/img/theme/img-1-1000x600.jpg")}
@@ -74,4 +86,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(GridBuilder);
+const mapDispatchToProps = dispatch => {
+  return{
+    getFile: (name) => dispatch(loadFile(name)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GridBuilder);
