@@ -11,7 +11,6 @@ import {
   connectAutoComplete,
   InstantSearch
 } from "react-instantsearch-dom";
-// import Autosuggest from "react-autosuggest";
 import {hitList, searchState} from "../actions";
 import {useLocation} from "react-router-dom";
 import {connect} from "react-redux";
