@@ -6,6 +6,7 @@
     "@fullcalendar/core": "4.4.0",
     "@fullcalendar/daygrid": "4.4.0",
     "@fullcalendar/interaction": "4.4.0",
+    "@pdftron/webviewer": "^7.1.0",
     "@uppy/core": "^1.13.1",
     "@uppy/react": "^1.10.5",
     "@uppy/store-redux": "^1.2.3",
@@ -50,13 +51,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && gulp licenses",
+    "build": "react-scripts build && gulp licenses && npm run move-static",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "compile-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.css",
     "minify-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.min.css --output-style compressed",
-    "map-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.css --source-map true"
+    "map-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.css --source-map true",
+    "move-static": "cp -a ./node_modules/@pdftron/webviewer/public/. ./dist/public/webviewer"
   },
   "eslintConfig": {
     "extends": "react-app"
