@@ -3,6 +3,9 @@
 #creative-tim
 assets/
 
+# WebViewer
+public/webviewer
+
 # dependencies
 /node_modules
 /.pnp
