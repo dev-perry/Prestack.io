@@ -10,7 +10,7 @@ function MediaWindow(props){
   useEffect(()=>{
     WebViewer(
       {
-        path: '/public/webviewer',
+        path: '/webviewer/lib',
         initialDoc: docURL
       },
       viewer.current,
@@ -18,6 +18,7 @@ function MediaWindow(props){
       const {docViewer} = instance;
       //call WebViewer APIs
     })
+    // eslint-disable-next-line
   },[])
 
   return(
