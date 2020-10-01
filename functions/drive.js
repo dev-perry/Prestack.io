@@ -16,7 +16,6 @@ const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
 //Functions for drive uploads
 exports.addedToDrive = functions.https.onCall((data) => {
-  var nickname = data.info.name.split(".");
   return admin.firestore().collection('users').doc(data.uid).collection('drive')
   .doc(data.info.name).set({
     uploaded: new Date(data.info.timeCreated),
@@ -26,7 +25,7 @@ exports.addedToDrive = functions.https.onCall((data) => {
 });
 
 //Function for searching through drive
-exports.onDocCreated = functions.firestore.document('users/{userID}/drive/{docID}')
+exports.toDocIndex = functions.firestore.document('users/{userID}/drive/{docID}')
 .onCreate((snap, context) => {
   //get the document object
   const doc = snap.data();
