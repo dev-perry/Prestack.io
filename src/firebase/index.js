@@ -18,7 +18,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.functions();
+// firebase.functions().useFunctionsEmulator("http://localhost:5001");
 firebase.analytics();
 
 export default firebase;
