@@ -4,7 +4,8 @@ var db = firebase.firestore();
 
 //Following for setting current presentation
 export const SET_PRES = "SET_PRES";
-
+//Set current build for editor
+export const SET_BUILD = "SET_BUILD";
 //Following for presentation creation
 export const CREATE_REQUEST = "CREATE_REQUEST";
 export const CREATE_SUCCESS = "CREATE_SUCCESS";
@@ -15,6 +16,13 @@ const setPres = (pres) => {
   return{
     type: SET_PRES,
     pres
+  }
+}
+//Action for setting build
+const setBuild = (build) => {
+  return{
+    type: SET_BUILD,
+    build
   }
 }
 
@@ -41,6 +49,12 @@ const requestFailure = (error) => {
 export const setPresentation = pres => dispatch =>{
   //set reducer
   dispatch(setPres(pres));
+}
+
+//Action creator for setting build
+export const setConstruct = build => dispatch => {
+  //set reducer
+  dispatch(setBuild(build));
 }
 
 //Action creator for presentation creation
