@@ -1,3 +1,9 @@
+import {
+  webviewBuild,
+  youtubeVideo,
+  driveAssets
+} from './layouts/BuilderForms.js'
+
 const modules = [
   {
     label: "Drive Asset",
@@ -5,7 +11,8 @@ const modules = [
     build:{
         label: "Drive Asset",
         type: "drive"
-      }
+      },
+    form: driveAssets
   },
   {
     label: "Webage View",
@@ -13,7 +20,8 @@ const modules = [
     build:{
       label: "Webpage View",
       type: "internet"
-    }
+    },
+    form: webviewBuild
   },
   {
     label: "YouTube Video",
@@ -21,7 +29,8 @@ const modules = [
     build: {
       label: "YouTube Video",
       type: "youtube"
-    }
+    },
+    form: youtubeVideo
   },
   {
     label: "Participation Module",
