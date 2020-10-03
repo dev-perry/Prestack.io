@@ -55,7 +55,7 @@ function ModuleList(props){
                                 </div>
                               </Col>
                               <div className="col">
-                                <CardTitle>{iconLoader(module.type)}{module.label}</CardTitle>
+                                <CardTitle>{iconLoader(module.build.type)}{module.build.label}</CardTitle>
                               </div>
                             </Row>
                           </CardBody>
