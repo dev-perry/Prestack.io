@@ -1,7 +1,23 @@
 import React from "react";
-import {Form, FormGroup, Input, Button} from "reactstrap";
+import {
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupText,
+  InputGroupAddon,
+  Button
+} from "reactstrap";
+import {
+  Hits,
+  InstantSearch,
+  connectAutoComplete,
+  connectHits
+} from "react-instantsearch-dom";
+import algoliasearch from "algoliasearch/lite";
 import store from '../store';
-import SearchBar from "../components/SearchBar";
+
+const ALGOLIA_ID = process.env.REACT_APP_ALGOLIA_ID;
 
 function handleSubmit(e, build) {
   e.preventDefault();
@@ -23,43 +39,20 @@ function handleSubmit(e, build) {
 export const webviewBuild = buildfunc => {
   return (
     <>
-      <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
+    <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
       <ol>
         <li>Use public web pages</li>
         <li>Do not use links to potentially malicious websites</li>
         <li>Use web pages with minimal cookies</li>
         <li>Do not use web pages that require authentication</li>
       </ol>
-      </div>
-<Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
+    </div>
+<Form role = "form"
+    onSubmit = {(e) => handleSubmit(e, buildfunc)}
+  >
   <FormGroup>
     <label htmlFor="modLinkInput">Link</label>
     <Input name="link" className="form-control-flush" id="modLinkInput" placeholder="https://yourweblinkhere.com" type="url"/>
-  </FormGroup>
-  <div className="text-right">
-    <Button className="mt-3" color="primary" type="btn">
-      Add
-    </Button>
-  </div>
-</Form>
-</>)
-}
-
-//Form for YouTube module
-export const youtubeVideo = buildfunc => {
-  return (
-    <>
-      <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
-      <ol>
-        <li>Do not use videos that infringe on copyright law</li>
-        <li>Use videos with minimal ads</li>
-        <li>Do not use links to private videos</li>
-      </ol>
-    </div>
-<Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
-  <FormGroup>
-    <label htmlFor="vidLinkInput">Video Link</label>
-    <Input name="video-link" className="form-control-flush" id="vidLinkInput" placeholder="https://youtu.be/videoID" type="url"/>
   </FormGroup>
   <div className="text-right">
     <Button className="mt-3" color="primary" type="btn">
@@ -71,36 +64,95 @@ export const youtubeVideo = buildfunc => {
 )
 }
 
-export const driveAssets = buildfunc => {
+//Form for YouTube module
+export const youtubeVideo = buildfunc => {
   return (
     <>
-      <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
-        <ol>
-          <li>Do not use videos that infringe on copyright law</li>
-          <li>Use videos with minimal ads</li>
-          <li>Do not use links to private videos</li>
-        </ol>
-      </div>
-  <Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
-    <FormGroup>
-      <SearchBar className="w-100" filter="drive"/>
-    </FormGroup>
-    <FormGroup>
-      <label htmlFor="assetSelect" sm={2}>Select Asset</label>
-      <Input type="select" name="file" id="assetSelect" size="3">
+  <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
+    <ol>
+      <li>Do not use videos that infringe on copyright law</li>
+      <li>Use videos with minimal ads</li>
+      <li>Do not use links to private videos</li>
+    </ol>
+  </div>
+<Form role = "form"
+  onSubmit = {(e) => handleSubmit(e, buildfunc)}
+    >
+  <FormGroup>
+    <label htmlFor="vidLinkInput">Video Link</label>
+    <Input name="video-link" className="form-control-flush" id="vidLinkInput" placeholder="https://youtu.be/videoID" type="url"/>
+  </FormGroup>
+  <div className="text-right">
+    <Button className="mt-3" color="primary" type="btn">
+      Add
+    </Button>
+  </div>
+</Form>
+  </>
+)
+}
+
+export const driveAssets = buildfunc => {
+  const state = store.getState();
+  const client = algoliasearch(ALGOLIA_ID, state.auth.searchKey);
+
+  const SearchBox = ({currentRefinement, refine}) => {
+    return(
+      <FormGroup className="mb-0">
+        <InputGroup className="input-group-alternative input-group-merge">
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <i className="fas fa-search"/>
+            </InputGroupText>
+          </InputGroupAddon>
+          <Input
+            placeholder="Search Drive assets"
+            type="search"
+            value={currentRefinement}
+            onChange={e => refine(e.currentTarget.value)}
+          />
+        </InputGroup>
+      </FormGroup>
+    )
+  }
+  //Connect autocomplete search to search field
+  const SearchField = connectAutoComplete(SearchBox);
+
+  const Hits = ({hits}) => {
+    return(
+      <FormGroup>
+      <br/>
+      <Input name="file" type="select" size="3">
         {
-          store.getState().search.searchResults.map((file, index) => {
-            return <option key={index}>{file.name}</option>
-          })
-        }
+          hits.map((hit, index) => <option key={index}>{hit.name}</option>
+        )}
       </Input>
     </FormGroup>
-    <div className="text-right">
-      <Button className="mt-3" color="primary" type="btn">
-        Add
-      </Button>
+    )
+  }
+  //connect custom hits to result List
+  const CustomHits = connectHits(Hits);
+
+  return (
+    <>
+    <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
+      <ol>
+        <li>Do not use videos that infringe on copyright law</li>
+        <li>Use videos with minimal ads</li>
+        <li>Do not use links to private videos</li>
+      </ol>
     </div>
-  </Form>
+<Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
+  <InstantSearch searchClient={client} indexName="drive">
+    <SearchField/>
+    <CustomHits/>
+  </InstantSearch>
+  <div className="text-right">
+    <Button className="mt-3" color="primary" type="btn">
+      Add
+    </Button>
+  </div>
+</Form>
 </>
 )
 }
