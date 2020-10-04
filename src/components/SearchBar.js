@@ -25,8 +25,7 @@ function SearchBar(props) {
     searchKey,
     searching,
     setHits,
-    setSearching,
-    filter
+    setSearching
   } = props;
 
   const [index, setIndex] = useState('drive');
@@ -36,18 +35,6 @@ function SearchBar(props) {
 
 
   const collectionSearch = () => {
-    if (filter){
-      switch (filter) {
-        case "drive":
-          setIndex('drive')
-          return "Drive assets"
-        case "participation":
-          setIndex('participation')
-          return "participation modules"
-        default:
-          return null
-      }
-    }else{
       switch (location.pathname) {
         case "/u/drive":
           setIndex('drive');
@@ -58,7 +45,6 @@ function SearchBar(props) {
         default:
           return null
       }
-    }
   }
 
   const SearchBox = ({currentRefinement, refine, hits}) => {
