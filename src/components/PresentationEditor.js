@@ -5,20 +5,31 @@ import {DragDropContext} from "react-beautiful-dnd";
 
 import ModuleList from "../layouts/ModuleList";
 import modules from "../modules";
-import {setPresentation, setConstruct} from "../actions";
-import emptySequence from "../graphics/emptySequence.svg";
+import {setPresentation, setConstruct, updatePresSequence} from "../actions";
 
 function PresentationEditor(props) {
-  const {pres, setPres, setBuild} = props;
-  const [build, updateBuild] = useState([]);
+  const {pres, setPres, setBuild, updateSeq} = props;
+  const [build, updateBuild] = useState(pres.sequence);
   const [modal, updateModal] = useState({
     open: false,
     content: null
-  })
+  });
 
   function addtoBuild(construct) {
     updateBuild(build.concat(construct));
     closeModal();
+  }
+
+  function sendUpdate(){
+    if(build === pres.sequence){
+      props.toggle(false);
+      updateBuild([]);
+    }else{
+      updateSeq(build, pres.id);
+      props.toggle(false);
+      setPres({});
+      updateBuild([]);
+    }
   }
 
   const openModal = (build, form) => {
@@ -59,11 +70,8 @@ function PresentationEditor(props) {
     if (pres.sequence) {
       updateBuild(pres.sequence);
     }
-    return() => {
-      setPres({})
-    }
     // eslint-disable-next-line
-  }, [])
+  },[pres.sequence])
 
   const onDragEnd = result => {
     //TODO: Reorder tiles
@@ -74,12 +82,12 @@ function PresentationEditor(props) {
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-    const resultArray = build;
-    const movedPart = build[source.index];
-    resultArray.splice(source.index, 1);
-    resultArray.splice(destination.index, 0, movedPart);
-
-    updateBuild(resultArray);
+      let resultArray = build;
+      let movedPart = build[source.index];
+      resultArray.splice(source.index, 1);
+      resultArray.splice(destination.index, 0, movedPart);
+      // console.log(resultArray);
+      updateBuild(resultArray);
   }
 
   return (
@@ -98,14 +106,7 @@ function PresentationEditor(props) {
       <div style={{
           height: "50vh"
         }} className="text-center modal-body overflow-auto">
-        {
-          pres.sequence
-            ? <ModuleList modules={pres.sequence}/>
-            : (
-              build.length > 0
-              ? <ModuleList modules={build}/>
-              : <img className="w-75 h-75" src={emptySequence} alt="Empty Presentation"/>)
-        }
+            <ModuleList modules={build}/>
       </div>
       <div className="border-top">
         <div className="py-2 text-center">Add modules:</div>
@@ -131,11 +132,15 @@ function PresentationEditor(props) {
         <Button className="mr-auto" color="link" data-dismiss="modal" type="button"
           onClick={() => {
             props.toggle(false);
+            setPres({});
             updateBuild([]);
           }}>
           Close
         </Button>
-        <Button color="primary" type="button">
+        <Button
+          onClick={sendUpdate}
+          color="primary"
+          type="button">
           Save changes
         </Button>
 
@@ -155,7 +160,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch => {
   return {
     setPres: (pres) => dispatch(setPresentation(pres)),
-    setBuild: (build) => dispatch(setConstruct(build))
+    setBuild: (build) => dispatch(setConstruct(build)),
+    updateSeq: (sequence, id) => dispatch(updatePresSequence(sequence, id))
   }
 }
 
