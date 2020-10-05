@@ -9,7 +9,6 @@ import {
   Button
 } from "reactstrap";
 import {
-  Hits,
   InstantSearch,
   connectAutoComplete,
   connectHits
@@ -80,7 +79,7 @@ export const youtubeVideo = buildfunc => {
     >
   <FormGroup>
     <label htmlFor="vidLinkInput">Video Link</label>
-    <Input name="video-link" className="form-control-flush" id="vidLinkInput" placeholder="https://youtu.be/videoID" type="url"/>
+    <Input name="videolink" className="form-control-flush" id="vidLinkInput" placeholder="https://youtu.be/videoID" type="url"/>
   </FormGroup>
   <div className="text-right">
     <Button className="mt-3" color="primary" type="btn">
