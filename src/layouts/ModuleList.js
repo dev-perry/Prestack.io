@@ -2,12 +2,15 @@ import React from "react";
 //reactstrap components
 import {
   Row,
+  Badge,
   Col,
   Card,
   CardTitle,
   CardBody
 } from "reactstrap";
 import {Droppable, Draggable} from "react-beautiful-dnd";
+import emptySequence from "../graphics/emptySequence.svg";
+
 
 function ModuleList(props){
   const {modules} = props;
@@ -27,6 +30,19 @@ function ModuleList(props){
     }
   }
 
+  function tagLoader(module){
+    switch(module.build.type){
+      case "drive":
+        return module.file;
+      case "internet":
+        return module.link;
+      case "youtube":
+        return module.videolink;
+      default:
+        return null
+    }
+  }
+
 
   return(
       <Droppable droppableId="presEditField">
@@ -38,6 +54,8 @@ function ModuleList(props){
               {...provided.droppableProps}
               >
               {
+                !modules.length ?
+                <img className="w-75 h-75" src={emptySequence} alt="Empty Presentation"/> :
                 modules.map(function(module,position){
                   return (
                     <Draggable draggableId={"prescomp"+position} index={position} key={position}>
@@ -56,6 +74,7 @@ function ModuleList(props){
                               </Col>
                               <div className="col">
                                 <CardTitle>{iconLoader(module.build.type)}{module.build.label}</CardTitle>
+                                <Badge className="mw-75 text-wrap" color="secondary">{tagLoader(module)}</Badge>
                               </div>
                             </Row>
                           </CardBody>
