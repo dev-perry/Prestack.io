@@ -85,6 +85,7 @@ exports.presChange = functions.firestore.document('users/{userID}/presentations/
     title: newValue.title,
     desc: newValue.desc,
     draft: newValue.draft,
-    downloadable: newValue.downloadable
+    downloadable: newValue.downloadable,
+    sequence: newValue.sequence
   })
 })
