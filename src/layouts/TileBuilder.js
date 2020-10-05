@@ -42,9 +42,10 @@ function TileBuilder(props){
             <Card
               onClick={()=>{
                 setPres({
+                  id: doc.id,
                   title: doc.data.title,
                   desc: doc.data.desc,
-                  sequence: doc.data.sequence
+                  sequence: (!doc.data.sequence ? [] : doc.data.sequence)
                 });
                 toggleModal(true)
               }}
