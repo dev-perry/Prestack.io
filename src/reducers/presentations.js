@@ -2,6 +2,9 @@ import{
   CREATE_REQUEST,
   CREATE_SUCCESS,
   CREATE_FAILURE,
+  UPDATE_SEQUENCE,
+  SEQUENCE_SUCCESS,
+  SEQUENCE_FAILURE,
   SET_PRES,
   SET_BUILD
 } from "../actions";
@@ -40,6 +43,24 @@ export default(state = {
         ...state,
         isCreating: false,
         creationFailure: true
+      }
+    case UPDATE_SEQUENCE:
+      return{
+        ...state,
+        isUpdating: true,
+        updateFailure: false
+      }
+    case SEQUENCE_SUCCESS:
+      return{
+        ...state,
+        isUpdating: false,
+        updateFailure: false
+      }
+    case SEQUENCE_FAILURE:
+      return{
+        ...state,
+        isUpdating: false,
+        updateFailure: true
       }
     default:
       return state
