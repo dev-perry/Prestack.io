@@ -7,6 +7,7 @@ import {
   CardText
 }from "reactstrap";
 
+import noPresentations from "../graphics/noPresentations.svg";
 import {setPresentation} from "../actions";
 import PresentationEditor from "../components/PresentationEditor";
 import {getDate} from "../firebase/actions";
@@ -37,6 +38,7 @@ function TileBuilder(props){
       <PresentationEditor open={modal} toggle={toggleModal}/>
     <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4 overflow-auto">
       {
+        presentations.length ?
         presentations.map((doc) => (
           <div className="col mb-4" key={doc.id}>
             <Card
@@ -62,7 +64,8 @@ function TileBuilder(props){
           </CardBody>
           </Card>
         </div>
-         ))
+      )):
+      <img src={noPresentations} alt="No Presentations"/>
       }
     </div>
   </>
