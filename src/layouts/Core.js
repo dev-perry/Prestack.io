@@ -29,7 +29,7 @@ class Core extends React.Component {
       if (prop.layout === "admin") {
         return (
           <PrivateRoute
-            path={"/u" + prop.path}
+            path={"/c" + prop.path}
             component={prop.component}
             key={key}
             isAuthenticated={this.props.isAuthenticated}
@@ -102,7 +102,7 @@ class Core extends React.Component {
           />
           <Switch>
             {this.getRoutes(routes)}
-            <Redirect from="*" to="/drive"/>
+            <Redirect from="*" to="/c/drive"/>
           </Switch>
           <AdminFooter/>
         </div>
