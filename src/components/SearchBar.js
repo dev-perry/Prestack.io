@@ -36,10 +36,10 @@ function SearchBar(props) {
 
   const collectionSearch = () => {
       switch (location.pathname) {
-        case "/u/drive":
+        case "/c/drive":
           setIndex('drive');
           return "in Drive"
-        case "/u/presentations":
+        case "/c/presentations":
           setIndex('presentations');
           return "Presentations"
         default:
