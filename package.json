@@ -62,7 +62,7 @@
     "compile-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.css",
     "minify-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.min.css --output-style compressed",
     "map-sass": "node-sass src/assets/scss/argon-dashboard-pro-react.scss src/assets/css/argon-dashboard-pro-react.css --source-map true",
-    "postinstall": "node tools/copy-webviewer-files.js"
+    "postinstall": "node src/tools/copy-webviewer-files.js"
   },
   "eslintConfig": {
     "extends": "react-app"
