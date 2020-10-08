@@ -72,7 +72,7 @@ function Drive(props){
         <div className="px-3 pt-4 overflow-auto">
           <Uploader modal={modal} handleClose={handleClose}/>
           {
-            documents.length ?
+            documents ?
             (toggleView.grid === 0 ? <GridBuilder documents={documents}/> : <ListBuilder documents={documents}/>):
             <img src={emptyDrive} alt="Empty Drive"/>
           }

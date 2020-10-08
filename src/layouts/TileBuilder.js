@@ -6,8 +6,10 @@ import {
   CardTitle,
   CardText
 }from "reactstrap";
+import {
+  NavLink
+} from "react-router-dom";
 
-import noPresentations from "../graphics/noPresentations.svg";
 import {setPresentation} from "../actions";
 import PresentationEditor from "../components/PresentationEditor";
 import {getDate} from "../firebase/actions";
@@ -38,34 +40,37 @@ function TileBuilder(props){
       <PresentationEditor open={modal} toggle={toggleModal}/>
     <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4 overflow-auto">
       {
-        presentations.length ?
-        presentations.map((doc) => (
-          <div className="col mb-4" key={doc.id}>
-            <Card
-              onClick={()=>{
-                setPres({
-                  id: doc.id,
-                  title: doc.data.title,
-                  desc: doc.data.desc,
-                  sequence: (!doc.data.sequence ? [] : doc.data.sequence)
-                });
-                toggleModal(true)
-              }}
-              className="bg-default text-white text-center p-3 h-100"
-              >
-              <CardBody>
-                <CardTitle>{doc.data.title}</CardTitle>
-                <CardText>
-                {doc.data.desc}
-              </CardText>
-              <CardText>
-              <small className="text-muted">{doc.data.updated ? `Updated on ${getDate(doc.data.updated)}` : `Created on ${getDate(doc.data.created)}`}</small>
-            </CardText>
-          </CardBody>
-          </Card>
-        </div>
-      )):
-      <img src={noPresentations} alt="No Presentations"/>
+        presentations.map((doc, index) => {
+        let draft = doc.data.draft;
+        return(
+              <div className="col mb-4" key={index} presid={doc.id}>
+                <Card
+                  onClick={()=>{
+                    setPres({
+                      id: doc.id,
+                      title: doc.data.title,
+                      desc: doc.data.desc,
+                      sequence: (!doc.data.sequence ? [] : doc.data.sequence)
+                    });
+                    toggleModal(true)
+                  }}
+                  className="bg-default text-white text-center p-3 h-100"
+                  >
+                  <CardBody>
+                    <CardTitle>{doc.data.title}</CardTitle>
+                    <CardText>
+                    {doc.data.desc}
+                  </CardText>
+                  <CardText>
+                  <small className="text-muted">{doc.data.updated ? `Updated on ${getDate(doc.data.updated)}` : `Created on ${getDate(doc.data.created)}`}</small>
+                </CardText>
+                {draft ? null : <span><NavLink style={{fontSize: "1.2rem", color: "white"}} to={`/s/${doc.id}`}><i className="fas fa-play"></i></NavLink></span>}
+              </CardBody>
+              </Card>
+            </div>
+      )
+    }
+    )
       }
     </div>
   </>

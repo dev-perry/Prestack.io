@@ -5,6 +5,7 @@ import {Button} from "reactstrap";
 import {connect} from "react-redux";
 import PresentationCreator from "../components/PresentationCreator";
 import TileBuilder from "../layouts/TileBuilder";
+import noPresentations from "../graphics/noPresentations.svg";
 
 function Presentations(props){
   const [modal, toggleModal] = useState(false);
@@ -42,7 +43,11 @@ function Presentations(props){
       </div>
       <div className="px-3 pt-4">
         <PresentationCreator open={modal} toggle={toggleModal}/>
-        <TileBuilder presentations={presentations}/>
+        {
+          presentations ?
+          <TileBuilder presentations={presentations}/>:
+          <img src={noPresentations} alt="No Presentations"/>
+        }
       </div>
     </>
     )
