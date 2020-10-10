@@ -25,12 +25,7 @@ function Uploader(props){
           '.pdf',
           '.jpeg',
           '.jpg',
-          '.png',
-          '.mov',
-          '.mpg',
-          '.mpeg',
-          '.mp4'
-        ]
+          '.png'        ]
       },
       logger: Uppy.debugLogger,
       allowMultipleUploads: false
