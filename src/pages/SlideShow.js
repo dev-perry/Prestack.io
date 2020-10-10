@@ -1,5 +1,6 @@
-import React from "react";
-import {useHistory} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useHistory, useParams} from "react-router-dom";
+import {connect} from "react-redux";
 import {
   Container,
   Row,
@@ -9,22 +10,54 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
+import firebase from "../firebase";
 import PresentationController from "../components/PresentationController";
 import ActivityList from '../layouts/ActivityList';
 import SlideList from "../layouts/SlideList";
 import SlideShowBox from "../components/SlideShowBox";
+import NewWindow from "react-new-window";
 
-function SlideShow() {
+function SlideShow(props) {
+  const {user} = props;
+  const db = firebase.firestore();
   const history = useHistory();
+  const [openWindow, open] = useState(false);
+  const [presentation, setPres] = useState();
+  const [sequence, setSequence] = useState();
+  const {presid} = useParams();
+
+  useEffect(()=>{
+    db.collection("users").doc(user.uid).collection("presentations").doc(presid)
+    .get().then(function(doc){
+        setPres(doc.data())
+    })
+    .catch(function(error){
+      console.log("Error getting document ", error);
+    })
+    //eslint-disable-next-line
+  },[])
+
+  useEffect(()=>{
+    if(presentation != null){
+        setSequence(presentation.sequence)
+    }
+      // setSequence(presentation.sequence)
+      // console.log("Sequence has been set:", sequence);
+  //eslint-disable-next-line
+},[presentation])
+
   const endPres = () => {
     history.replace("/c/presentations");
   }
+
   return (
-    <div>
+    <>
     <Button onClick={endPres} className="mt-3 ml-5 rounded-pill" color="danger" type="button">
   <i className="fas fa-times"> End Presentation</i>
   </Button>
-    <div className = "d-flex align-items-stretch" >
+  {
+  presentation != null ?
+  <div className = "d-flex align-items-stretch" >
   <Container className="pt-3">
     <Row>
       <Col className="pb-0 vh-75">
@@ -44,11 +77,10 @@ function SlideShow() {
           <Card className="bg-info w-100">
             <CardBody className="pb-0">
               <CardTitle className="text-uppercase text-muted mb-0">
-                <h1 className="text-white">Shakespeare in History</h1>
+                <h1 className="text-white">{presentation.title}</h1>
               </CardTitle>
               <p className="text-white">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Cras ornare arcu dui vivamus arcu felis bibendum ut tristique. Aliquam sem et tortor consequat id porta nibh.
+                {presentation.desc}
               </p>
             </CardBody>
           </Card>
@@ -69,7 +101,7 @@ function SlideShow() {
             </Card>
           </Col>
           <Col className="pr-0">
-            <PresentationController/>
+            <PresentationController showing={openWindow} toggleWindow={open}/>
           </Col>
         </Row>
         <Row className="pt-3">
@@ -90,10 +122,26 @@ function SlideShow() {
       </Col>
     </Row>
   </Container>
-</div>
-  <SlideShowBox/>
-</div>
+  {
+    openWindow &&
+    <NewWindow
+    title={"Tozme Presentation Player"}
+    center="screen"
+    >
+    <SlideShowBox items={sequence}/>
+  </NewWindow>
+  }
+</div>:
+<div className="my-auto">Loading presentation</div>
+}
+</>
 )
 }
 
-export default SlideShow;
+function mapStateToProps(state){
+  return{
+    user: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps)(SlideShow);
