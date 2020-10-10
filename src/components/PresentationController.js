@@ -5,8 +5,10 @@ import {
   CardTitle,
   Button
 } from "reactstrap";
+import classnames from "classnames";
 
-function PresentationController(){
+function PresentationController(props){
+  const {showing, toggleWindow} = props;
   return(
     <Card className="bg-primary h-100">
       <CardBody>
@@ -31,6 +33,12 @@ function PresentationController(){
           <Button className="rounded-circle">
             <span><i className="fas fa-redo-alt"></i></span>
           </Button>
+        </div>
+        <div className="text-center mt-4">
+          <Button
+            color="default"
+            className={classnames("rounded-pill", {active: !showing})}
+            onClick={()=> toggleWindow(true)}>Open Player</Button>
         </div>
       </CardBody>
     </Card>
