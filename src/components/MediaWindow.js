@@ -15,7 +15,7 @@ function MediaWindow(props){
       },
       viewer.current,
     ).then((instance) => {
-      const {docViewer} = instance;
+      // const {docViewer} = instance;
       //call WebViewer APIs
     })
     // eslint-disable-next-line
