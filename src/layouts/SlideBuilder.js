@@ -12,9 +12,9 @@ function SlideBuilder(props){
     switch (module.build.type) {
       case "drive":
         getFile(module.file);
-        return <div className="vw-100 vh-100"><MediaWindow/></div>
+        return <div className="vw-100 vh-100"><MediaWindow preview={false}/></div>
       case "internet":
-        return <WebDisplay url={module.link}/>
+        return <div className="vh-100 vw-100"><WebDisplay url={module.link}/></div>
       case "youtube":
         return <YoutubePlayer videoSource={module.videolink}/>
       default:
