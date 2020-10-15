@@ -9,6 +9,7 @@ import { PropTypes } from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
 // reactstrap components
 import {
+  Button,
   Collapse,
   NavbarBrand,
   Navbar,
@@ -127,6 +128,7 @@ class Sidebar extends React.Component {
             <Collapse isOpen={this.state[prop.state]}>
               <Nav className="nav-sm flex-column">
                 {this.createLinks(prop.views)}
+                <Button className="sidenav-normal pl--4" color="link"><i class="fas fa-plus pr-2"></i>Add Class</Button>
               </Nav>
             </Collapse>
           </NavItem>
