@@ -15,7 +15,7 @@ function DocPreview(props) {
       </h6>
     </div>
     <div className="modal-body p-0">
-      <MediaWindow/>
+      <MediaWindow preview={true}/>
     </div>
     <div className="modal-footer">
       <Button className="ml-auto" color="link" data-dismiss="modal" type="button" onClick={() => props.toggle(false)}>

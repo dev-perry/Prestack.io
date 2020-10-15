@@ -5,25 +5,51 @@ import {connect} from "react-redux";
 
 function MediaWindow(props){
   const viewer = useRef(null);
-  const {docURL} = props;
+  const {docURL, preview} = props;
 
   useEffect(()=>{
     WebViewer(
       {
         path: '/webviewer/lib',
-        initialDoc: docURL
+        initialDoc: docURL,
+        disabledElements: [
+          'leftPanelButton',
+          'viewControlsButton',
+          'selectToolButton',
+          'freeHandToolGroupButton',
+          'searchButton',
+          'leftPanel',
+          'searchPanel',
+          'filePickerButton',
+          'annotationPopup',
+          'annotationStylePopup',
+          'toolStylePopup',
+          'stylePopup',
+          'textPopup',
+          'contextMenuPopup',
+          'signatureModal',
+          'passwordModal',
+          'viewControlsOverlay',
+          'menuOverlay',
+          'freeHandToolGroupButton',
+          'searchOverlay',
+          'toolsOverlay',
+          'pageNavOverlay'
+        ]
       },
       viewer.current,
     ).then((instance) => {
-      // const {docViewer} = instance;
-      //call WebViewer APIs
+      instance.disableElements(['toolbarGroup-Annotate']);
+      instance.disableElements(['toolbarGroup-Shapes']);
+      instance.disableElements(['toolbarGroup-Edit']);
+      instance.disableElements(['toolbarGroup-Insert']);
     })
     // eslint-disable-next-line
   },[])
 
   return(
     <div className="MediaWindow">
-      <div className="webviewer" ref={viewer} style={{height: "75vh"}}></div>
+      <div className="webviewer" ref={viewer} style={{height: preview ? "75vh" : "100vh"}}></div>
     </div>
   )
 }
