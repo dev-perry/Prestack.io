@@ -1,17 +1,18 @@
 import WebViewer from '@pdftron/webviewer';
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {connect} from "react-redux";
 
 
 function MediaWindow(props){
   const viewer = useRef(null);
   const {docURL, preview} = props;
+  const [docViewer, setInstance] = useState(null);
 
   useEffect(()=>{
     WebViewer(
       {
         path: '/webviewer/lib',
-        initialDoc: docURL,
+        preloadWorker: 'pdf',
         disabledElements: [
           'leftPanelButton',
           'viewControlsButton',
@@ -34,18 +35,27 @@ function MediaWindow(props){
           'freeHandToolGroupButton',
           'searchOverlay',
           'toolsOverlay',
-          'pageNavOverlay'
+          'pageNavOverlay',
+          'toggleNotesButton',
+          'toolbarGroup-Annotate',
+          'toolbarGroup-Shapes',
+          'toolbarGroup-Edit',
+          'toolbarGroup-Insert',
         ]
       },
       viewer.current,
     ).then((instance) => {
-      instance.disableElements(['toolbarGroup-Annotate']);
-      instance.disableElements(['toolbarGroup-Shapes']);
-      instance.disableElements(['toolbarGroup-Edit']);
-      instance.disableElements(['toolbarGroup-Insert']);
+      setInstance(instance);
     })
     // eslint-disable-next-line
   },[])
+
+  useEffect(()=>{
+    if(docViewer != null && docURL !== ""){
+      docViewer.loadDocument(docURL);
+    }
+    //eslint-disable-next-line
+  })
 
   return(
     <div className="MediaWindow">
