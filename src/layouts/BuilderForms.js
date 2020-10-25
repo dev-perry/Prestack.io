@@ -91,6 +91,7 @@ export const youtubeVideo = buildfunc => {
 )
 }
 
+//Form for drive assets
 export const driveAssets = buildfunc => {
   const state = store.getState();
   const client = algoliasearch(ALGOLIA_ID, state.auth.searchKey);
@@ -134,15 +135,80 @@ export const driveAssets = buildfunc => {
 
   return (
     <>
-    <div className = "pb-3 text-left" > <h3>Whenever possible:</h3>
+    <div className = "pb-3 text-left" > <h3>Remember</h3>
       <ol>
-        <li>Do not use videos that infringe on copyright law</li>
-        <li>Use videos with minimal ads</li>
-        <li>Do not use links to private videos</li>
+        <li>Ensure that you have selected the correct asset</li>
+        <li>Assets added to presentations cannot be deleted from your drive</li>
+        <li>Embedded media may not display properly</li>
       </ol>
     </div>
 <Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
   <InstantSearch searchClient={client} indexName="drive">
+    <SearchField/>
+    <CustomHits/>
+  </InstantSearch>
+  <div className="text-right">
+    <Button className="mt-3" color="primary" type="btn">
+      Add
+    </Button>
+  </div>
+</Form>
+</>
+)
+}
+
+export const participationForm = buildfunc => {
+  const state = store.getState();
+  const client = algoliasearch(ALGOLIA_ID, state.auth.searchKey);
+
+  const SearchBox = ({currentRefinement, refine}) => {
+    return(
+      <FormGroup className="mb-0">
+        <InputGroup className="input-group-alternative input-group-merge">
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <i className="fas fa-search"/>
+            </InputGroupText>
+          </InputGroupAddon>
+          <Input
+            placeholder="Search Participation Modules"
+            type="search"
+            value={currentRefinement}
+            onChange={e => refine(e.currentTarget.value)}
+          />
+        </InputGroup>
+      </FormGroup>
+    )
+  }
+  //Connect autocomplete search to search field
+  const SearchField = connectAutoComplete(SearchBox);
+
+  const Hits = ({hits}) => {
+    return(
+      <FormGroup>
+      <br/>
+      <Input name="details" type="select" size="3">
+        {
+          hits.map((hit, index) => <option key={index} value={`{"ref": "${hit.participationID}", "name":"${hit.name}"}`}>{hit.name}</option>
+        )}
+      </Input>
+    </FormGroup>
+    )
+  }
+  //connect custom hits to result List
+  const CustomHits = connectHits(Hits);
+
+  return (
+    <>
+    <div className = "pb-3 text-left" > <h3>Remember:</h3>
+      <ol>
+        <li>Do not end a presentation while a presentation module is running</li>
+        <li>Network strength may impact how quickly responses are displayed</li>
+        <li>Participation modules do not persist any collected data</li>
+      </ol>
+    </div>
+<Form role="form" onSubmit={(e) => handleSubmit(e, buildfunc)}>
+  <InstantSearch searchClient={client} indexName="participation">
     <SearchField/>
     <CustomHits/>
   </InstantSearch>
