@@ -7,11 +7,13 @@ import AdminNavbar from "../components/AdminNavbar";
 import AdminFooter from "../components/AdminFooter";
 import PrivateRoute from "../components/PrivateRoute";
 //routes
-import routes from "../routes";
+import buildRoutes from "../routes";
 
 class Core extends React.Component {
+
   state = {
-    sidenavOpen: true
+    sidenavOpen: true,
+    routes: buildRoutes([])
   };
   componentDidUpdate(e) {
     if (e.history.pathname !== e.location.pathname) {
@@ -19,11 +21,16 @@ class Core extends React.Component {
       document.scrollingElement.scrollTop = 0;
       this.refs.mainContent.scrollTop = 0;
     }
+    if(e.attributes !== this.props.attributes){
+      this.setState({
+        routes: buildRoutes(this.props.attributes.teaching)
+      })
+    }
   }
 
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.collapse) {
+      if (prop.collapse && prop.views.length > 0) {
         return this.getRoutes(prop.views);
       }
       if (prop.layout === "admin") {
@@ -42,13 +49,13 @@ class Core extends React.Component {
     });
   };
   getBrandText = path => {
-    for (let i = 0; i < routes.length; i++) {
+    for (let i = 0; i < this.state.routes.length; i++) {
       if (
         this.props.location.pathname.indexOf(
-          routes[i].path
+          this.state.routes[i].path
         ) !== -1
       ) {
-        return routes[i].name;
+        return this.state.routes[i].name;
       }
     }
     return "Brand";
@@ -79,7 +86,7 @@ class Core extends React.Component {
       <>
         <Sidebar
           {...this.props}
-          routes={routes}
+          routes={this.state.routes}
           toggleSidenav={this.toggleSidenav}
           sidenavOpen={this.state.sidenavOpen}
           logo={{
@@ -101,7 +108,7 @@ class Core extends React.Component {
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>
-            {this.getRoutes(routes)}
+            {this.getRoutes(this.state.routes)}
             <Redirect from="*" to="/c/drive"/>
           </Switch>
           <AdminFooter/>
@@ -117,7 +124,8 @@ class Core extends React.Component {
 function mapStateToProps(state){
   return{
     isAuthenticated: state.auth.isAuthenticated,
-    isVerifying: state.auth.isVerifying
+    isVerifying: state.auth.isVerifying,
+    attributes: state.auth.attributes
   }
 }
 
