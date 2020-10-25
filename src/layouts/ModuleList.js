@@ -38,6 +38,9 @@ function ModuleList(props){
         return module.link;
       case "youtube":
         return module.videolink;
+      case "participation":
+        let info = JSON.parse(module.details);
+        return info.name;
       default:
         return null
     }
@@ -64,7 +67,7 @@ function ModuleList(props){
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           innerRef={provided.innerRef}
-                          className="card text-center w-75 mx-auto">
+                          className="card text-center">
                           <CardBody>
                             <Row>
                               <Col className="col-auto">
