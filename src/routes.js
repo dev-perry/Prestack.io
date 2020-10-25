@@ -1,5 +1,6 @@
 import Drive from "./pages/Drive";
-import Presentations from "./pages/Presentations"
+import Presentations from "./pages/Presentations";
+import Participation from "./pages/Participation";
 // {
 //   path: "/path-name",
 //   name: "Drive",
@@ -27,7 +28,7 @@ const routes = [
     path: "/participation",
     name: "Participation",
     icon: "fas fa-user-check",
-    component: null,
+    component: Participation,
     layout: "admin"
   },
   {
