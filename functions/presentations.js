@@ -29,7 +29,7 @@ exports.presCreated = functions.firestore.document('users/{userID}/presentations
   .collection("presentations").doc(context.params.presID)
   //new toplevel presentation
   var topPres = db.collection("presentations");
-  //Dual writes transaction
+  //Dual writes
   return user.get().then((uDoc) => {
     if(!uDoc.exists){
       //eslint-disable-next-line
