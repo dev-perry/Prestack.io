@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import MediaWindow from "../components/MediaWindow";
 import WebDisplay from "../components/WebDisplay";
 import YoutubePlayer from "../components/YoutubePlayer";
+import ParticipationView from "../layouts/ParticipationView";
 import {loadFile} from "../actions/index";
 
 function SlideBuilder(props){
@@ -17,6 +18,9 @@ function SlideBuilder(props){
         return <div className="vh-100 vw-100"><WebDisplay url={module.link}/></div>
       case "youtube":
         return <YoutubePlayer videoSource={module.videolink}/>
+      case "participation":
+        let info = JSON.parse(module.details);
+        return <ParticipationView assetID={info.ref}/>
       default:
         return <div className="m-auto">No module loaded</div>;
     }
