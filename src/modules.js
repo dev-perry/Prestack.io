@@ -1,7 +1,8 @@
 import {
   webviewBuild,
   youtubeVideo,
-  driveAssets
+  driveAssets,
+  participationForm
 } from './layouts/BuilderForms.js'
 
 const modules = [
@@ -38,7 +39,8 @@ const modules = [
     build: {
       label: "Participation Module",
       type: "participation"
-    }
+    },
+    form: participationForm
   }
 ];
 
