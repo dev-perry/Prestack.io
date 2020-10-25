@@ -24,3 +24,5 @@ export const providerSignIn = (provider) => dispatch => {
 export const createUserDoc = firebase.functions().httpsCallable('users-createUserDoc');
 //For drive document creation
 export const addedToDrive = firebase.functions().httpsCallable('drive-addedToDrive');
+//For participation sending
+export const signalStudents = firebase.functions().httpsCallable('participation-sendCurrent');
