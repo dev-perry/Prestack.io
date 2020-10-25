@@ -5,3 +5,4 @@ exports.drive = require('./drive');
 exports.presentations = require('./presentations');
 exports.users = require('./users');
 exports.search = require('./search');
+exports.participation = require('./participation');
