@@ -10,7 +10,9 @@ import {
   SIGNUP_FAILURE,
   GET_SEARCH_KEY,
   VERIFY_REQUEST,
-  VERIFY_SUCCESS
+  VERIFY_SUCCESS,
+  GET_ATTRIBUTES,
+  SET_ATTRIBUTES
 } from "../actions/";
 
 //changes in state that will occur based on actions
@@ -24,7 +26,9 @@ export default (state={
   signupError: false,
   isAuthenticated: false,
   verifyingError: false,
+  fetchingAttributes: false,
   user: {},
+  attributes: {},
   searchKey: ""
 }, action)=>{
   switch(action.type){
@@ -100,6 +104,17 @@ export default (state={
         return{
           ...state,
           isVerifying: false
+        };
+      case GET_ATTRIBUTES:
+        return{
+          ...state,
+          fetchingAttributes: true
+        };
+      case SET_ATTRIBUTES:
+        return{
+          ...state,
+          fetchingAttributes: false,
+          attributes: action.doc
         };
      default:
      return state;

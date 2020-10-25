@@ -28,6 +28,10 @@ export const GET_SEARCH_KEY = "GET_SEARCH_KEY";
 export const VERIFY_REQUEST = "VERIFY_REQUEST";
 export const VERIFY_SUCCESS = "VERIFY_SUCCESS";
 
+//User attribute fetching
+export const GET_ATTRIBUTES = "GET_ATTRIBUTES";
+export const SET_ATTRIBUTES = "SET_ATTRIBUTES";
+
 //Login actions
 const requestLogin = ()=>{
   return{
@@ -102,6 +106,19 @@ const verifySuccess = ()=>{
     type: VERIFY_SUCCESS
   };
 };
+
+//Handle user attrtibute loading
+const getUserDoc = () => {
+  return{
+    type: GET_ATTRIBUTES
+  };
+}
+const setUserDoc = (doc) => {
+  return{
+    type: SET_ATTRIBUTES,
+    doc
+  }
+}
 
 //Login user
 export const loginUser = (provider, email, password) => dispatch => {
@@ -188,8 +205,23 @@ export const verifyAuth = () => dispatch => {
         }).then(function(data){
           dispatch(getSearchKey(data.key));
         })
+      //Fetch user attributes from document
+      dispatch(fetchAttributes(user.uid))
     }
     //dispatch verifySuccess, nothing occurs if no user exists
     dispatch(verifySuccess());
   });
 };
+
+//Get user attributes from db
+const fetchAttributes = (id) => dispatch => {
+  //dispatch attribute request
+  dispatch(getUserDoc());
+  firebase.firestore().collection("users").doc(id)
+  .get().then(function(doc){
+    //set user attributes if user doc exists
+    if(doc.exists){
+      dispatch(setUserDoc(doc.data()))
+    }
+  })
+}
