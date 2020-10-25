@@ -42,6 +42,9 @@ function SearchBar(props) {
         case "/c/presentations":
           setIndex('presentations');
           return "Presentations"
+        case "/c/participation":
+          setIndex('participation');
+          return "Participation Modules"
         default:
           return null
       }
