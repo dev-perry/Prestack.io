@@ -12,7 +12,7 @@ import Class from "./pages/Class";
 
 function buildRoutes(classList){
   let collapse = [];
-  if(classList.length > 0){
+  if(classList != null && classList.length > 0){
     collapse = classList.map(function(item){
       return {
             path: `/classes/${item.id}`,
