@@ -7,6 +7,9 @@ export const NEW_PARTICIPATION = "NEW_PARTICIPATION";
 export const NEW_SUCCESS = "NEW_SUCCESS";
 export const NEW_FAILURE = "NEW_FAILURE";
 
+//Following for setting target classes
+export const TARGET_CLASS = "TARGET_CLASS";
+
 //Actions for creation
 const requestCreate = () => {
   return{
@@ -24,6 +27,14 @@ const requestFailure = (error) => {
     type: NEW_FAILURE,
     error
   }
+}
+
+//Action for setting target class
+const targetClass = (classObj) => {
+  return{
+    type: TARGET_CLASS,
+    classObj
+  };
 }
 
 export const newParticipation = (participation) => (dispatch, getState) => {
@@ -46,4 +57,15 @@ export const newParticipation = (participation) => (dispatch, getState) => {
     //Indicate an error occurred
     dispatch(requestFailure(error));
   })
+}
+
+export const setTarget = (id) => (dispatch, getState) => {
+  const state = getState();
+  let classArray = state.auth.attributes.teaching;
+  let target = classArray.filter(function(e){
+    //returns array that only has one item in it mathcing id
+    return e.id === id;
+  })
+  //Set targetClass field in reducer
+  dispatch(targetClass(target[0]));
 }

@@ -1,12 +1,14 @@
 import {
   NEW_PARTICIPATION,
   NEW_SUCCESS,
-  NEW_FAILURE
+  NEW_FAILURE,
+  TARGET_CLASS
 } from "../actions";
 
 export default( state ={
   isCreating: false,
-  creationFailure: false
+  creationFailure: false,
+  targetClass: {}
 }, action) => {
   switch (action.type) {
     case NEW_PARTICIPATION:
@@ -26,6 +28,11 @@ export default( state ={
         ...state,
         isCreating: false,
         creationFailure: true
+      }
+    case TARGET_CLASS:
+      return{
+        ...state,
+        targetClass: action.classObj
       }
     default:
       return state
