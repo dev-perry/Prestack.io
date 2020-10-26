@@ -4,7 +4,8 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText
+  CardText,
+  Button
 }from "reactstrap";
 import {
   NavLink
@@ -12,6 +13,7 @@ import {
 
 import {setPresentation} from "../actions";
 import PresentationEditor from "../components/PresentationEditor";
+import PresentationLauncher from "../components/PresentationLauncher";
 import {getDate} from "../firebase/actions";
 
 //Selecting random colors
@@ -33,11 +35,14 @@ import {getDate} from "../firebase/actions";
 
 function TileBuilder(props){
   const {presentations, setPres} = props;
-  const [modal, toggleModal] = useState(false);
+  const [editModal, toggleEdit] = useState(false);
+  const [launchModal, toggleLaunch] = useState(false);
+  const [currentID, setCurrent] = useState(null);
 
   return(
     <>
-      <PresentationEditor open={modal} toggle={toggleModal}/>
+      <PresentationLauncher open={launchModal} toggle={toggleLaunch} presID={currentID}/>
+      <PresentationEditor open={editModal} toggle={toggleEdit}/>
     <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4 overflow-auto">
       {
         presentations.map((doc, index) => {
@@ -45,14 +50,16 @@ function TileBuilder(props){
         return(
               <div className="col mb-4" key={index} presid={doc.id}>
                 <Card
-                  onClick={()=>{
-                    setPres({
-                      id: doc.id,
-                      title: doc.data.title,
-                      desc: doc.data.desc,
-                      sequence: (!doc.data.sequence ? [] : doc.data.sequence)
-                    });
-                    toggleModal(true)
+                  onClick={(e)=>{
+                    if(e.target.className === "card-body"){
+                      setPres({
+                        id: doc.id,
+                        title: doc.data.title,
+                        desc: doc.data.desc,
+                        sequence: (!doc.data.sequence ? [] : doc.data.sequence)
+                      });
+                      toggleEdit(true)
+                    }
                   }}
                   className="bg-default text-white text-center p-3 h-100"
                   >
@@ -64,7 +71,10 @@ function TileBuilder(props){
                   <CardText>
                   <small className="text-muted">{doc.data.updated ? `Updated on ${getDate(doc.data.updated)}` : `Created on ${getDate(doc.data.created)}`}</small>
                 </CardText>
-                {draft ? null : <span><NavLink style={{fontSize: "1.2rem", color: "white"}} to={`/s/${doc.id}`}><i className="fas fa-play"></i></NavLink></span>}
+                {draft ? null : <Button onClick={()=>{
+                  setCurrent(doc.id);
+                  toggleLaunch(true);
+                }}><span><i className="fas fa-play"></i></span></Button>}
               </CardBody>
               </Card>
             </div>
@@ -84,3 +94,5 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(null, mapDispatchToProps)(TileBuilder);
+
+/* <NavLink style={{fontSize: "1.2rem", color: "white"}} to={`/s/${doc.id}`}><i className="fas fa-play"></i></NavLink> */
