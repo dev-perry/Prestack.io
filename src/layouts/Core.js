@@ -13,7 +13,7 @@ class Core extends React.Component {
 
   state = {
     sidenavOpen: true,
-    routes: buildRoutes([])
+    routes: buildRoutes(this.props.attributes.teaching)
   };
   componentDidUpdate(e) {
     if (e.history.pathname !== e.location.pathname) {
