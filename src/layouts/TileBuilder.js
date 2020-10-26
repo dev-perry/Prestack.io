@@ -7,9 +7,6 @@ import {
   CardText,
   Button
 }from "reactstrap";
-import {
-  NavLink
-} from "react-router-dom";
 
 import {setPresentation} from "../actions";
 import PresentationEditor from "../components/PresentationEditor";
