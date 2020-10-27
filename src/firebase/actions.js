@@ -25,4 +25,4 @@ export const createUserDoc = firebase.functions().httpsCallable('users-createUse
 //For drive document creation
 export const addedToDrive = firebase.functions().httpsCallable('drive-addedToDrive');
 //For participation sending
-export const signalStudents = firebase.functions().httpsCallable('participation-sendCurrent');
+export const sendCurrent = firebase.functions().httpsCallable('participation-sendCurrent');
