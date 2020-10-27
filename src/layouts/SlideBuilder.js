@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import MediaWindow from "../components/MediaWindow";
 import WebDisplay from "../components/WebDisplay";
 import YoutubePlayer from "../components/YoutubePlayer";
-import ParticipationView from "../layouts/ParticipationView";
+import ParticipationView from "../components/ParticipationView";
 import {loadFile} from "../actions/index";
 
 function SlideBuilder(props){
