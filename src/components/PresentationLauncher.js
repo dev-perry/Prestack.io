@@ -12,12 +12,13 @@ import {useHistory} from "react-router-dom";
 function PresentationLauncher(props){
   const {attributes, presID} = props
   const [selection, setSelect] = useState("");
+  const [preview, setPreview] = useState(false);
   const [classArray, setClasses] = useState([]);
   let history = useHistory();
 
   function handleSubmit(e){
     e.preventDefault();
-    history.push(`/s/${presID}?class=${selection}`);
+    history.push(`/s/${presID}?class=${selection}&view=${preview ? false : true}`);
   }
 
   function handleChange(e){
@@ -57,6 +58,8 @@ function PresentationLauncher(props){
                     className="custom-control-input"
                     id=" customCheckLogin"
                     type="checkbox"
+                    value={preview}
+                    onChange={((e) => setPreview(e.target.checked))}
                   />
                   <label
                     className="custom-control-label"
