@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams, useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import {
   Container,
@@ -17,12 +17,17 @@ import ActivityList from '../layouts/ActivityList';
 import SlideList from "../layouts/SlideList";
 import NewWindow from "react-new-window";
 
+function useQuery(){
+  return new URLSearchParams(useLocation().search);
+}
+
 function SlideShow(props) {
   const {user, presentation, setPres} = props;
   const db = firebase.firestore();
   const history = useHistory();
   const [openWindow, open] = useState(false);
   const {presid} = useParams();
+  let query = useQuery();
 
   useEffect(() => {
     db.collection("users").doc(user.uid).collection("presentations").doc(presid).get().then(function(doc) {
@@ -119,7 +124,7 @@ function SlideShow(props) {
             </Row>
           </Container>
           {
-            openWindow && <NewWindow url={`/s/player/${presid}`} title={"Tozme Presentation Player"} center="screen"/>
+            openWindow && <NewWindow url={`/s/player/${presid}?class=${query.get("class")}&view=${query.get("view")}`} title={"Tozme Presentation Player"} center="screen"/>
           }
         </div>
       : <div className="my-auto">Loading presentation</div>
