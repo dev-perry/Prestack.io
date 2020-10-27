@@ -39,7 +39,6 @@ function SlideShowBox(props){
   useEffect(()=>{
     db.collection("users").doc(user.uid).collection("presentations").doc(showid).get().then(function(doc) {
       setSeq(doc.data().sequence)
-      console.log(doc.data().sequence);
     }).catch(function(error) {
       console.log("Error getting document ", error);
     })
