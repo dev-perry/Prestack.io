@@ -57,7 +57,7 @@ function ModuleList(props){
               {...provided.droppableProps}
               >
               {
-                !modules.length ?
+                modules == null || modules.length === 0 ?
                 <img className="w-75 h-75" src={emptySequence} alt="Empty Presentation"/> :
                 modules.map(function(module,position){
                   return (
