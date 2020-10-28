@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {connect} from "react-redux";
 import {Modal, Button} from "reactstrap";
 import {DragDropContext} from "react-beautiful-dnd";
@@ -9,11 +9,12 @@ import {setPresentation, setConstruct, updatePresSequence} from "../actions";
 
 function PresentationEditor(props) {
   const {pres, setPres, setBuild, updateSeq} = props;
-  const [build, updateBuild] = useState(pres.sequence);
+  const [build, updateBuild] = useState([]);
   const [modal, updateModal] = useState({
     open: false,
     content: null
   });
+  let original = useRef();
 
   function addtoBuild(construct) {
     updateBuild(build.concat(construct));
@@ -21,14 +22,18 @@ function PresentationEditor(props) {
   }
 
   function sendUpdate(){
-    if(build === pres.sequence){
-      props.toggle(false);
-      updateBuild([]);
+    if(original.current === build){
+      // props.toggle(false);
+      console.log(original.current);
+      console.log("There has been no change");
+      console.log(build);
     }else{
+      console.log(original.current);
+      console.log("There has been a change");
+      // console.log(build);
       updateSeq(build, pres.id);
       props.toggle(false);
-      setPres({});
-      updateBuild([]);
+      // setPres({});
     }
   }
 
@@ -69,6 +74,7 @@ function PresentationEditor(props) {
   useEffect(() => {
     if (pres.sequence) {
       updateBuild(pres.sequence);
+      original.current = pres.sequence;
     }
     // eslint-disable-next-line
   },[pres.sequence])
@@ -87,7 +93,7 @@ function PresentationEditor(props) {
       resultArray.splice(source.index, 1);
       resultArray.splice(destination.index, 0, movedPart);
       // console.log(resultArray);
-      updateBuild(resultArray);
+      updateBuild([...resultArray]);
   }
 
   return (
