@@ -87,18 +87,19 @@ exports.participationChange = functions.firestore.document('users/{userID}/parti
 
 //Send notification + data to user devices when participation module is activated
 exports.sendCurrent = functions.https.onCall(async (data) => {
-  const {participationID, idList} = data;
+  const {refPath, classID} = data;
 
   //get array of user tokens
-  const getDeviceTokens = idList.map(id =>
-    db.collection('users')
-    .doc(id).get().then((doc) =>  doc.data().notifyToken)
+  const getDeviceTokens =
+    db.collection('classes')
+    .doc(classID)
+    .get()
+    .then((doc) =>  doc.data().registered_tokens)
     .catch(e => console.log(e))
-  );
 
   //get participation details
-  const getParticipation = db.collection('participation')
-        .doc(participationID).get().then((doc) => {
+  const getParticipation = db.doc(refPath)
+        .get().then((doc) => {
           let dataObject = doc.data();
           return dataObject;
         })
@@ -136,7 +137,13 @@ exports.sendCurrent = functions.https.onCall(async (data) => {
       title: 'New class participation!',
       body: bodyLabel(notifyObj.type)
     },
-    data: notifyObj
+    data: {
+      title: `${notifyObj.title}`,
+      points: `${notifyObj.points}`,
+      prompt: `${notifyObj.prompt}`,
+      duration: `${notifyObj.duration}`,
+      ref: `${refPath}`
+    }
   }
 
   //Filter tokens array for any null/undefined values
