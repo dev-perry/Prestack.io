@@ -3,7 +3,7 @@ import {Button} from "reactstrap";
 import {connect} from "react-redux";
 import firebase from "../firebase";
 import {sendCurrent} from "../firebase/actions";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 function useQuery(){
   return new URLSearchParams(useLocation().search);
@@ -12,14 +12,13 @@ function useQuery(){
 function ParticipationView(props){
   const {assetID, user} = props;
   const [view, setView] = useState(null);
-  const [idArray, setArray] = useState([]);
   const db = firebase.firestore();
   let query = useQuery();
-  let {showid} = useParams();
 
   function signalHandler(){
-    if(query.get("view") === "false"){
-      console.log({participationID: showid, idList: idArray})
+    if(query.get("view") === "true"){
+      sendCurrent({refPath: view.ref.path, classID: query.get("class")})
+      // console.log({refPath: view.ref.path, idList: idArray});
     }
   }
 
@@ -29,15 +28,6 @@ function ParticipationView(props){
     .get().then(function(doc) {
       setView(doc.data())
     }).catch(function(error) {
-      console.log("Error getting document ", error);
-    })
-    //Get list of student keys
-    db.collection("classes").doc(query.get("class")).get()
-    .then(function(doc){
-      let students = doc.data().students;
-      setArray(Object.keys(students));
-    })
-    .catch(function(error){
       console.log("Error getting document ", error);
     })
 
