@@ -81,7 +81,7 @@ function SearchBar(props) {
                 </InputGroupText>
               </InputGroupAddon>
               <Input
-                placeholder={`Search ${collectionSearch()}`}
+                placeholder={location.pathname.includes("/c/classes") ? "Search Students" :`Search ${collectionSearch()}`}
                 type="search"
                 value={currentRefinement}
                 onChange={e => handleChange(e)}
