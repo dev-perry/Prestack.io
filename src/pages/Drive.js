@@ -45,7 +45,7 @@ function Drive(props){
   return (
       <>
         <div className="d-flex justify-content-between">
-          <Button onClick={handleOpen} className="mt-3 ml-5 rounded-pill channel-uploadbtn" color="success" type="button">
+          <Button onClick={handleOpen} className="mt-3 ml-5 rounded-pill channel-uploadbtn" color="secondary" type="button">
             <i className="fas fa-plus"></i> Upload Media
           </Button>
           <ButtonGroup className="btn-group-toggle mt-3 mr-4" data-toggle="buttons">
