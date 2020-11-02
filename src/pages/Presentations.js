@@ -34,7 +34,7 @@ function Presentations(props){
       <div className="d-flex justify-content-between">
         <Button
           className="mt-3 ml-5 rounded-pill channel-uploadbtn"
-          color="primary"
+          color="secondary"
           type="button"
           onClick={() => toggleModal(!modal)}
           >
