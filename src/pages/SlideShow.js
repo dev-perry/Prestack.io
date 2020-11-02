@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import firebase from "../firebase";
 import {setPresentation} from "../actions";
-import PresentationController from "../components/PresentationController";
 import ActivityList from '../layouts/ActivityList';
 import SlideList from "../layouts/SlideList";
 import NewWindow from "react-new-window";
@@ -49,8 +48,7 @@ function SlideShow(props) {
     <Button onClick = {
     endPres
   }
-  className = "mt-3 ml-5 rounded-pill" color = "danger" type = "button" > <i className="fas fa-times">
-    End Presentation</i>
+  className = "mt-3 ml-5 rounded-pill pr-2" color = "danger" type = "button" ><i className="fas fa-times"></i> End Presentation
 </Button>
     {
     presentation != null
@@ -94,31 +92,28 @@ function SlideShow(props) {
                           </CardTitle>
                         </div>
                         <div>
-                          <SlideList/>
+                          <SlideList content={presentation.sequence} showing={openWindow} toggleWindow={open}/>
                         </div>
                       </CardBody>
                     </Card>
                   </Col>
                   <Col className="pr-0">
-                    <PresentationController showing={openWindow} toggleWindow={open}/>
+                    <Card style={{
+                        backgroundColor: "#ced4da"
+                      }} className="w-100 h-100">
+                      <CardBody className="pb-0">
+                        <CardTitle className="text-uppercase text-muted mb-0">
+                          <h3 className="text-default">REMEMBER:</h3>
+                        </CardTitle>
+                        <ol className="text-default">
+                          <li>Double-check you have selected the correct presentation</li>
+                          <li>Select the pop-out presentation window for screen share</li>
+                          <li>Use dual monitors when possible</li>
+                          <li>Stop screen share before exiting presentations</li>
+                        </ol>
+                      </CardBody>
+                    </Card>
                   </Col>
-                </Row>
-                <Row className="pt-3">
-                  <Card style={{
-                      backgroundColor: "#ced4da"
-                    }} className="w-100">
-                    <CardBody className="pb-0">
-                      <CardTitle className="text-uppercase text-muted mb-0">
-                        <h3 className="text-default">REMEMBER:</h3>
-                      </CardTitle>
-                      <ol className="text-default">
-                        <li>Double-check you have selected the correct presentation</li>
-                        <li>Select the pop-out presentation window for screen share</li>
-                        <li>Use dual monitors when possible</li>
-                        <li>Stop screen share before exiting presentations</li>
-                      </ol>
-                    </CardBody>
-                  </Card>
                 </Row>
               </Col>
             </Row>
