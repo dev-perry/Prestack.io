@@ -90,8 +90,8 @@ class Core extends React.Component {
           toggleSidenav={this.toggleSidenav}
           sidenavOpen={this.state.sidenavOpen}
           logo={{
-            innerLink: "/drive",
-            imgSrc: require("../assets/img/brand/argon-react.png"),
+            innerLink: "/c/drive",
+            imgSrc: require("../graphics/Tozme-Brand.png"),
             imgAlt: "..."
           }}
         />
