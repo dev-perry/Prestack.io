@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {logoutUser} from "../actions";
+import firebase from '../firebase';
 // nodejs library that concatenates classes
 import classnames from "classnames";
 // nodejs library to set properties for components
@@ -23,6 +24,7 @@ import {
 import SearchBar from "./SearchBar";
 
 function AdminNavbar(props){
+  const storage = firebase.storage();
   const {user, logout} = props;
   // function that on mobile devices makes the search open
   const openSearch = () => {
@@ -50,6 +52,20 @@ function AdminNavbar(props){
       document.body.classList.remove("g-navbar-search-hidden");
     }, 500);
   };
+
+  useEffect(()=>{
+    if(user.uid){
+      storage.ref(`users/${user.uid}/avatar.jpg`).getDownloadURL()
+      .then(url => {
+        var img = document.getElementById('userAvatarPicture');
+        img.src = url;
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+    //eslint-disable-next-line
+  },[user])
+
     return (
       <>
         <Navbar
@@ -92,8 +108,9 @@ function AdminNavbar(props){
                     <Media className="align-items-center">
                       <span className="avatar avatar-sm rounded-circle">
                         <img
+                          id="userAvatarPicture"
                           alt="..."
-                          src={require("../assets/img/theme/team-4.jpg")}
+                          src={require("../graphics/userAvatarDefault.jpg")}
                         />
                       </span>
                       <Media className="ml-2 d-none d-lg-block">
