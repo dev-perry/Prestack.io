@@ -1,32 +1,33 @@
 import React from "react";
+import classnames from "classnames";
 import {
   ListGroup,
   ListGroupItem,
-  Badge
+  Badge,
+  Button
 } from "reactstrap";
 
-function SlideList(){
+function SlideList(props){
+  const {showing, toggleWindow, content} = props;
   return(
-    <ListGroup>
-   <ListGroupItem className="border-0 pl-0">
-     <Badge color="primary" pill>
-       1
-     </Badge>{" "}
-     Spoken Word Video
-   </ListGroupItem>
-   <ListGroupItem className="border-0 pl-0">
-     <Badge color="primary" pill>
-       2
-     </Badge>{" "}
-     Poetry sample.docx
-   </ListGroupItem>
-   <ListGroupItem className="border-0 pl-0">
-     <Badge color="primary" pill>
-       3
-     </Badge>{" "}
-     Participation
-   </ListGroupItem>
- </ListGroup>
+  <>
+    <ListGroup className="mh-75 overflow-auto">
+    {content && content.map((item, index) =>
+      <ListGroupItem className="border-0 pl-0" key={index}>
+       <Badge color="primary" pill>
+         {index + 1}
+       </Badge>{" "}
+       {item.build.label}
+      </ListGroupItem>
+    )}
+    </ListGroup>
+    <div className="text-center mt-4">
+      <Button
+        color="default"
+        className={classnames("rounded-pill", {active: !showing})}
+        onClick={()=> toggleWindow(true)}>Open Player</Button>
+    </div>
+  </>
   )
 }
 
