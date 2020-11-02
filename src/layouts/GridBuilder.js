@@ -5,9 +5,9 @@ import {
   Card,
   CardTitle,
   CardBody,
-  CardImg,
 } from "reactstrap";
 import DocPreview from "../components/DocPreview";
+import FileIcon from "./FileIcon";
 import {connect} from "react-redux";
 
 import {getDate} from "../firebase/actions";
@@ -32,17 +32,13 @@ function GridBuilder(props){
 
   if(searching && searchResults.length > 0){
     return(
-      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 px-4 pb-4">
         <DocPreview open={modal} toggle={setModal}/>
         {
           searchResults.map((hit, index) => (
             <div className="col mb-4" key={index}>
               <Card className="h-100" data-filename={hit.name} onClick={handleOpen}>
-                 <CardImg
-                   alt="File thumbnail"
-                   src={require("../assets/img/theme/img-1-1000x600.jpg")}
-                   top
-                 />
+                 <FileIcon assetType={hit.type} thumb={true}/>
                  <CardBody>
                    <CardTitle>{hit.name}</CardTitle>
                      <small className="text-muted">Uploaded on {getAlgoliaDate(hit.uploaded)}</small>
@@ -55,17 +51,13 @@ function GridBuilder(props){
     )
   }else{
     return(
-      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4">
+      <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 px-4 pb-4">
         <DocPreview open={modal} toggle={setModal}/>
         {
           documents.map((doc, index) => (
             <div className="col mb-4" key={index}>
               <Card className="h-100" data-filename={doc.id} onClick={handleOpen}>
-                 <CardImg
-                   alt="File thumbnail"
-                   src={require("../assets/img/theme/img-1-1000x600.jpg")}
-                   top
-                 />
+                <FileIcon assetType={doc.data.type} thumb={true}/>
                  <CardBody>
                    <CardTitle>{doc.id}</CardTitle>
                      <small className="text-muted">Uploaded on {getDate(doc.data.uploaded)}</small>

@@ -10,6 +10,8 @@ import {
 import DocPreview from "../components/DocPreview";
 import {getDate} from "../firebase/actions";
 import {loadFile} from "../actions";
+import FileIcon from './FileIcon';
+
 
 function ListBuilder(props){
   const {documents, searching, searchResults, getFile} = props;
@@ -31,16 +33,13 @@ function ListBuilder(props){
 
   if(searching && searchResults.length > 0){
     return(
-      <ListGroup className="list my--3 pl-4 pt-3">
+      <ListGroup className="list my--3 px-4 pt-3 pb-4">
         <DocPreview open={modal} toggle={setModal}/>
         {searchResults.map((hit, index) => (
           <ListGroupItem key={index} data-filename={hit.name} onClick={handleOpen}>
             <Row className="align-items-center">
               <Col className="col-auto">
-                <img
-                  alt="..."
-                  src={require("../assets/img/icons/flags/US.png")}
-                />
+                <FileIcon assetType={hit.type} thumb={false}/>
               </Col>
               <div className="col">
                 <small>Name:</small>
@@ -61,16 +60,13 @@ function ListBuilder(props){
     )
   }
     return(
-      <ListGroup className="list my--3 pl-4 pt-3">
+      <ListGroup className="list my--3 px-4 pt-3 pb-4">
         <DocPreview open={modal} toggle={setModal}/>
         {documents.map((doc, index) => (
           <ListGroupItem key={index} data-filename={doc.id} onClick={handleOpen}>
             <Row className="align-items-center">
               <Col className="col-auto">
-                <img
-                  alt="..."
-                  src={require("../assets/img/icons/flags/US.png")}
-                />
+                <FileIcon assetType={doc.data.type} thumb={false}/>
               </Col>
               <div className="col">
                 <small>Name:</small>
