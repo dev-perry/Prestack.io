@@ -19,31 +19,7 @@ function AdminFooter() {
                       href="#pablo"
                       target="_blank"
                     >
-                      © {currentYear}{" "}TOZME
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      href="https://www.creative-tim.com/presentation?ref=adpr-admin-footer"
-                      target="_blank"
-                    >
-                      About Us
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      href="http://blog.creative-tim.com?ref=adpr-admin-footer"
-                      target="_blank"
-                    >
-                      Blog
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      href="https://www.creative-tim.com/license?ref=adpr-admin-footer"
-                      target="_blank"
-                    >
-                      License
+                      © {currentYear}{" "}Tozme
                     </NavLink>
                   </NavItem>
                 </Nav>
