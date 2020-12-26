@@ -6,7 +6,7 @@ import {
   Modal
 } from "reactstrap";
 import BlockBuilder from "../layouts/BlockBuilder";
-import {wordCloud, photoWall} from "../layouts/ParticipationForms"
+import {wordCloud, polling, Quiz} from "../layouts/ParticipationForms"
 
 function Participation(props){
   const [modal, updateModal] = useState({
@@ -66,21 +66,31 @@ function Participation(props){
           name="cloud"
           onClick={()=>{updateModal({content:wordCloud(close), open:true})}}
           >
-          <i className="fas fa-font mx-auto"></i>
+          <span style={{color: "#21209c"}}><i className="fas fa-font mx-auto"></i></span>
           <h4>Word Cloud</h4>
         </Button>
-        <Button className="rounded-lg" color="secondary" type="button" name="poll">
-          <i className="fas fa-poll mx-auto"></i>
+        <Button
+          className="rounded-lg"
+          color="secondary"
+          type="button"
+          name="poll"
+          onClick={()=>{updateModal({content:polling(close), open:true})}}
+          >
+          <span style={{color:"#fdb827"}} >
+            <i className="fas fa-poll mx-auto"></i>
+          </span>
           <h4>Poll</h4>
         </Button>
         <Button
-          onClick={()=>{updateModal({content:photoWall(close), open:true})}}
-          className="rounded-lg" color="secondary" type="button" name="photo">
-          <i className="far fa-images mx-auto"></i>
-          <h4>Photo Wall</h4>
-        </Button>
-        <Button className="rounded-lg" color="secondary" type="button" name="quiz">
-          <i className="far fa-check-square"></i>
+          className="rounded-lg"
+          color="secondary"
+          type="button"
+          name="quiz"
+          onClick={()=>{updateModal({content:<Quiz close={close}/>, open:true})}}
+          >
+          <span style={{color: "#6f9eaf"}}>
+            <i className="far fa-check-square"></i>
+          </span>
           <h4>Quiz</h4>
         </Button>
       </div>
