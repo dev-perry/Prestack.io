@@ -10,8 +10,10 @@ import {
 
 import {setPresentation} from "../actions";
 import PresentationEditor from "../components/PresentationEditor";
-import PresentationLauncher from "../components/PresentationLauncher";
+// import PresentationLauncher from "../components/PresentationLauncher";
 import {getDate} from "../firebase/actions";
+import NewWindow from "react-new-window";
+// import {useLocation} from "react-router-dom";
 
 //Selecting random colors
 // const Colors = {};
@@ -30,15 +32,21 @@ import {getDate} from "../firebase/actions";
 //     return result;
 // };
 
+// function useQuery(){
+//   return new URLSearchParams(useLocation().search);
+// }
+
 function TileBuilder(props){
   const {presentations, setPres} = props;
   const [editModal, toggleEdit] = useState(false);
-  const [launchModal, toggleLaunch] = useState(false);
+  // const [launchModal, toggleLaunch] = useState(false);
   const [currentID, setCurrent] = useState(null);
+  const [openWindow, open] = useState(false);
+  // let query = useQuery();
 
   return(
     <>
-      <PresentationLauncher open={launchModal} toggle={toggleLaunch} presID={currentID}/>
+      {/* <PresentationLauncher open={launchModal} toggle={toggleLaunch} presID={currentID}/> */}
       <PresentationEditor open={editModal} toggle={toggleEdit}/>
     <div className="row row-cols-1 row-cols-md-4 row-cols-sm-2 pl-4 overflow-auto">
       {
@@ -70,7 +78,8 @@ function TileBuilder(props){
                 </CardText>
                 {draft ? null : <Button onClick={()=>{
                   setCurrent(doc.id);
-                  toggleLaunch(true);
+                  open(true);
+                  // toggleLaunch(true);
                 }}><span><i className="fas fa-play"></i></span></Button>}
               </CardBody>
               </Card>
@@ -80,6 +89,9 @@ function TileBuilder(props){
     )
       }
     </div>
+    {
+      openWindow && <NewWindow url={`/s/player/${currentID}`} title={"Prestack Presentation Player"} center="screen" onUnload={() => open(false)}/>
+    }
   </>
   )
 }
