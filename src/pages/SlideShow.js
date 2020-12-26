@@ -119,7 +119,7 @@ function SlideShow(props) {
             </Row>
           </Container>
           {
-            openWindow && <NewWindow url={`/s/player/${presid}?class=${query.get("class")}&view=${query.get("view")}`} title={"Tozme Presentation Player"} center="screen"/>
+            openWindow && <NewWindow url={`/s/player/${presid}?class=${query.get("class")}&view=${query.get("view")}`} title={"Prestack"} center="screen"/>
           }
         </div>
       : <div className="my-auto">Loading presentation</div>
