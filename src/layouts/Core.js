@@ -7,13 +7,13 @@ import AdminNavbar from "../components/AdminNavbar";
 import AdminFooter from "../components/AdminFooter";
 import PrivateRoute from "../components/PrivateRoute";
 //routes
-import buildRoutes from "../routes";
+import routes from "../routes";
 
 class Core extends React.Component {
 
   state = {
     sidenavOpen: true,
-    routes: buildRoutes(this.props.attributes.teaching)
+    routes: routes
   };
   componentDidUpdate(e) {
     if (e.history.pathname !== e.location.pathname) {
@@ -23,7 +23,7 @@ class Core extends React.Component {
     }
     if(e.attributes !== this.props.attributes){
       this.setState({
-        routes: buildRoutes(this.props.attributes.teaching)
+        routes: routes
       })
     }
   }
@@ -91,7 +91,7 @@ class Core extends React.Component {
           sidenavOpen={this.state.sidenavOpen}
           logo={{
             innerLink: "/c/drive",
-            imgSrc: require("../graphics/Tozme-Brand.png"),
+            imgSrc: require("../graphics/Prestack-Brand.png"),
             imgAlt: "..."
           }}
         />
