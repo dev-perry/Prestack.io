@@ -3,7 +3,6 @@ import {useParams} from "react-router-dom";
 import {
   Carousel,
   CarouselItem,
-  CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
 import {connect} from "react-redux";
@@ -45,6 +44,24 @@ function SlideShowBox(props){
   //eslint-disable-next-line
   },[])
 
+  //function for toggling SlideShowBox
+  function navigateFunction(event){
+    if(event.keyCode === 39){
+      previous();
+    }
+    if(event.keyCode === 37){
+      next();
+    }
+  }
+
+  useEffect(()=>{
+    document.addEventListener("keyDown", navigateFunction, false);
+
+    return()=>{
+      document.removeEventListener("keyDown", navigateFunction, false);
+    }
+  });
+
   return (
     <div className="vh-100 vw-100">
     {
@@ -69,8 +86,6 @@ function SlideShowBox(props){
             );
           })
         }
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
       </Carousel>
       : <div className="my-auto">Loading slideshow</div>
     }
