@@ -7,7 +7,6 @@ import classnames from "classnames";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -64,43 +63,16 @@ function Auth(props){
   if(isAuthenticated && sender){
     return <Redirect to={sender.from}/>
   }else if(isAuthenticated){
-    return <Redirect to="/u/drive"/>
+    return <Redirect to="/c/drive"/>
   }else{
     return(
       <Container className="mt-8 pb-5 h-100">
             <Row className="justify-content-center">
               <Col className="my-auto" lg="5" md="7">
                 <Card className="bg-secondary border-0 mb-0">
-              <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-3">
-                <small>{ formLogin ? "Sign in with" : "Sign up with"}</small>
-              </div>
-              <div className="btn-wrapper text-center">
-                <Button
-                  onClick={() => login("google", null, null)}
-                  style={{
-                    color: 'white',
-                    backgroundColor:'#EA4335',
-                    border: 'none'
-                  }}
-                >
-                  <span className="btn-inner--text"><i className="fab fa-google pr-2"></i>Google</span>
-                </Button>
-                <Button
-                  onClick={() => login("facebook", null, null)}
-                  style={{
-                    color: 'white',
-                    backgroundColor:'#4267B2',
-                    border: 'none'
-                  }}
-                >
-                  <span className="btn-inner--text"><i className="fab fa-facebook-f pr-2"></i>Facebook</span>
-                </Button>
-              </div>
-            </CardHeader>
                   <CardBody className="px-lg-5 py-lg-5">
                     <div className="text-center text-muted mb-4">
-                      <small>{formLogin ? "Or sign in with credentials" : "Or sign up manually"}</small>
+                      <small>{formLogin ? "Sign in to your account" : "Create new account"}</small>
                     </div>
                     <Form role="form" onSubmit={handleSubmit}>
                       {
