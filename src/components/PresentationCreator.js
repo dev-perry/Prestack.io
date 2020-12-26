@@ -6,9 +6,7 @@ import {
   Modal,
   Form,
   FormGroup,
-  Input,
-  Label,
-  FormText
+  Input
 } from "reactstrap";
 
 import {createPresentation} from "../actions";
@@ -53,13 +51,6 @@ function PresentationCreator(props) {
           <Input name="desc" className="form-control-flush" placeholder="e.g. This presentation explains the meaning of life." id="presDescInput" type="textarea" style={{
               resize: 'none'
             }}/>
-        </FormGroup>
-        <FormGroup check="check">
-          <Label check="check">
-            <Input name="downloadable" className="form-control-flush" type="checkbox" id="presDownloadCheck"/>{' '}
-            Allow participant downloads
-          </Label>
-          <FormText>When checked, members of any class you assign this presentation to will be able to download all files and media included in this presentation.</FormText>
         </FormGroup>
         <div className="text-right">
           <Button className="mt-3" color="primary" type="btn">
