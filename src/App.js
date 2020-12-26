@@ -18,7 +18,7 @@ function App(props) {
         <Route path="/c" render={props => <Core {...props}/>}/>
         <PrivateRoute path="/s/:presid" component={SlideShow} isAuthenticated={props.isAuthenticated} isVerifying={props.isVerifying} exact/>
         <PrivateRoute path="/s/player/:showid" component={SlideShowBox} isAuthenticated={props.isAuthenticated} isVerifying={props.isVerifying} exact/>
-        <Redirect from="*" to="/"/>
+        <Redirect to="/"/>
       </Switch>
     </Router>
   );
