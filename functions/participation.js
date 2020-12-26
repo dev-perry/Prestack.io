@@ -54,9 +54,9 @@ exports.participationCreated = functions.firestore.document('users/{userID}/part
   .then((uName) =>
     topPres.add({
       duration: part.duration,
-      points: part.points,
       prompt: part.prompt,
       title: part.title,
+      choices: part.choices,
       type: part.type,
       owner: {
         displayName: uName,
@@ -83,85 +83,4 @@ exports.participationChange = functions.firestore.document('users/{userID}/parti
     duration: newValue.duration,
     points: newValue.points
   });
-});
-
-//Send notification + data to user devices when participation module is activated
-exports.sendCurrent = functions.https.onCall(async (data) => {
-  const {refPath, classID} = data;
-
-  //get array of user tokens
-  const getDeviceTokens =
-    db.collection('classes')
-    .doc(classID)
-    .get()
-    .then((doc) =>  doc.data().registered_tokens)
-    .catch(e => console.log(e))
-
-  //get participation details
-  const getParticipation = db.doc(refPath)
-        .get().then((doc) => {
-          let dataObject = doc.data();
-          return dataObject;
-        })
-        .catch(e => console.log(e));
-
-  //Object containing participation details
-  let notifyObj;
-
-  //Array containing user tokens
-  let tokens;
-
-  const results = await Promise.all([getDeviceTokens, getParticipation]);
-  tokens = results[0];
-  notifyObj = results[1];
-
-  //Set body based on participation type
-  function bodyLabel(type){
-    switch (type) {
-      case "cloud":
-        return "Add to your class word cloud"
-      case "quiz":
-        return "Take your quiz"
-      case "poll":
-        return "Send in a poll response"
-      case "photo":
-        return "Add to your class photo wall"
-      default:
-        return null
-    }
-  }
-
-  //Notification details
-  const payload = {
-    notification:{
-      title: 'New class participation!',
-      body: bodyLabel(notifyObj.type)
-    },
-    data: {
-      title: `${notifyObj.title}`,
-      points: `${notifyObj.points}`,
-      prompt: `${notifyObj.prompt}`,
-      duration: `${notifyObj.duration}`,
-      ref: `${refPath}`
-    }
-  }
-
-  //Filter tokens array for any null/undefined values
-  tokens = tokens.filter((el) => {
-     return el !== null;
-   });
-
-   const response = await admin.messaging().sendToDevice(tokens, payload);
-
-   //Check if error occurred for each message
-   const errorTokens = [];
-   response.results.forEach((result,index) => {
-     const error = result.error;
-     if(error){
-       console.error('Failure sending notification to', tokens[index], error);
-       errorTokens.push(tokens[index]);
-     }
-   });
-
-   return Promise.all(errorTokens);
 });
