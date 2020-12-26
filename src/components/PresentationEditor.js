@@ -139,7 +139,6 @@ function PresentationEditor(props) {
           onClick={() => {
             props.toggle(false);
             setPres({});
-            updateBuild([]);
           }}>
           Close
         </Button>
