@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import QRCode from "qrcode.react";
 import {Button} from "reactstrap";
 import {connect} from "react-redux";
 import firebase from "../firebase";
@@ -46,6 +47,12 @@ function ParticipationView(props){
           </div>
           : <div className="my-auto">Loading participation</div>
         }
+        <div className="text-right fixed-bottom mr-3 mb-3">
+          <p><em>Scan to Respond</em></p>
+            <QRCode
+              fgColor="#00303f"
+              value="https://alwaysjudgeabookbyitscover.com/"/>
+        </div>
       </div>
     )
   }
