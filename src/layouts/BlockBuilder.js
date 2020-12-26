@@ -12,13 +12,11 @@ function BlockBuilder(props){
   function typeLabeler(type){
     switch (type) {
       case "cloud":
-        return <i className="fas fa-font mx-auto fa-2x"></i>
+        return <span style={{color: "#21209c"}}><i className="fas fa-font mx-auto fa-2x"></i></span>
       case "poll":
-        return <i className="fas fa-poll mx-auto fa-2x"></i>
-      case "photo":
-        return <i className="far fa-images mx-auto fa-2x"></i>
+        return <span style={{color:"#fdb827"}} ><i className="fas fa-poll mx-auto fa-2x"></i></span>
       case "quiz":
-        return <i className="far fa-check-square fa-2x"></i>
+        return <span style={{color: "#6f9eaf"}}><i className="far fa-check-square fa-2x"></i></span>
       default:
         return null
     }
@@ -41,8 +39,7 @@ function BlockBuilder(props){
                     <h3 className="mb-0">
                         {card.data.title}
                     </h3>
-                    <span className="text-info">●</span>
-                    <small>{card.data.points} points</small>
+                    <small>{card.data.prompt}</small>
                   </div>
                 </Row>
               </CardBody>
