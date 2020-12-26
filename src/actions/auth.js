@@ -1,10 +1,6 @@
 import firebase from "../firebase";
-import {providerSignIn, createUserDoc} from  "../firebase/actions";
+import {createUserDoc} from  "../firebase/actions";
 const PROJECT_ID = process.env.REACT_APP_FIREBASE_ID;
-
-//providers
-var facebook = new firebase.auth.FacebookAuthProvider();
-var google = new firebase.auth.GoogleAuthProvider();
 
 //Async login requests
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -121,16 +117,9 @@ const setUserDoc = (doc) => {
 }
 
 //Login user
-export const loginUser = (provider, email, password) => dispatch => {
+export const loginUser = (email, password) => dispatch => {
   //dispatch loginRequest
   dispatch(requestLogin());
-    if(provider === "google"){
-      dispatch(providerSignIn(google));
-    }
-    else if(provider === "facebook"){
-      dispatch(providerSignIn(facebook));
-    }
-    else{
       firebase.auth().signInWithEmailAndPassword(email,password)
       .then(user =>{
         //dispatch receiveLogin and deliver payload which is user object after success
@@ -140,7 +129,6 @@ export const loginUser = (provider, email, password) => dispatch => {
         //dispatch loginError if login is unsucessful, error can be passed as payload
         dispatch(loginError());
       })
-    }
 }
 
 //Logout user
