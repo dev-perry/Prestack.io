@@ -32,6 +32,7 @@ function MediaWindow(props){
           'passwordModal',
           'viewControlsOverlay',
           'menuOverlay',
+          'menuButton',
           'freeHandToolGroupButton',
           'searchOverlay',
           'toolsOverlay',
@@ -41,6 +42,7 @@ function MediaWindow(props){
           'toolbarGroup-Shapes',
           'toolbarGroup-Edit',
           'toolbarGroup-Insert',
+          'toolbarGroup-View'
         ]
       },
       viewer.current,
