@@ -45,9 +45,9 @@ export const newParticipation = (participation) => (dispatch, getState) => {
   .add({
     title: participation.title,
     duration: parseInt(participation.duration),
-    points: parseInt(participation.points),
     prompt: participation.prompt,
-    type: participation.type
+    type: participation.type,
+    choices: participation.choices ? participation.choices : null
   })
   .then(function(docRef){
     //Indicate participation creation was successful
