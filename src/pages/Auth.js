@@ -48,7 +48,7 @@ function Auth(props){
   function handleSubmit(e){
     e.preventDefault();
     if(formLogin){
-      login(null, input.email, input.password);
+      login(input.email, input.password);
     }else if(!formLogin){
       signup({
         fname: input.fname,
@@ -223,7 +223,7 @@ function mapStateToProps(state){
 
 const mapDispatchToProps = dispatch => {
   return{
-    login: (provider,email,password) => dispatch(loginUser(provider,email,password)),
+    login: (email,password) => dispatch(loginUser(email,password)),
     signup: (user) => dispatch(signUpUser(user)),
   }
 }
