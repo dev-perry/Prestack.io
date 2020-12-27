@@ -7,7 +7,6 @@ import store from "./store";
 import * as serviceWorker from './serviceWorker';
 
 // // styles!
-import "./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/css/argon-dashboard-pro-react.css";
 
 ReactDOM.render(

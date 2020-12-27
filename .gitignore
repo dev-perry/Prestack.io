@@ -4,9 +4,6 @@
 firestore-debug.log
 ui-debug.log
 
-#creative-tim
-assets/
-
 # WebViewer
 public/webviewer
 
