@@ -7,8 +7,6 @@ import SlideShowBox from "./components/SlideShowBox";
 
 import Core from './layouts/Core';
 import Auth from './pages/Auth';
-import SlideShow from "./pages/SlideShow";
-
 
 function App(props) {
   return (
@@ -16,7 +14,6 @@ function App(props) {
       <Switch>
         <Route path="/auth" render={props => <Auth {...props}/>} exact/>
         <Route path="/c" render={props => <Core {...props}/>}/>
-        <PrivateRoute path="/s/:presid" component={SlideShow} isAuthenticated={props.isAuthenticated} isVerifying={props.isVerifying} exact/>
         <PrivateRoute path="/s/player/:showid" component={SlideShowBox} isAuthenticated={props.isAuthenticated} isVerifying={props.isVerifying} exact/>
         <Redirect to="/"/>
       </Switch>
