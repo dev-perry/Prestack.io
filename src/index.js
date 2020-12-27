@@ -6,8 +6,17 @@ import {Provider} from "react-redux";
 import store from "./store";
 import * as serviceWorker from './serviceWorker';
 
-// // styles!
-import "./assets/css/argon-dashboard-pro-react.css";
+// bootstrap rtl for rtl support page
+// import "./assets/vendor/bootstrap-rtl/bootstrap-rtl.scss";
+// // plugins styles downloaded
+// import "./assets/vendor/fullcalendar/dist/fullcalendar.min.css";
+// import "./assets/vendor/sweetalert2/dist/sweetalert2.min.css";
+// import "./assets/vendor/select2/dist/css/select2.min.css";
+// import "./assets/vendor/quill/dist/quill.core.css";
+// import "./assets/vendor/nucleo/css/nucleo.css";
+// import "./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css";
+// core styles
+import "./assets/scss/argon-dashboard-pro-react.scss?v1.1.0";
 
 ReactDOM.render(
   <React.StrictMode>
