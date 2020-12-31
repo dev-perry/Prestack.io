@@ -42,7 +42,8 @@ function MediaWindow(props){
           'toolbarGroup-Shapes',
           'toolbarGroup-Edit',
           'toolbarGroup-Insert',
-          'toolbarGroup-View'
+          'toolbarGroup-View',
+          'toolsHeader'
         ]
       },
       viewer.current,
