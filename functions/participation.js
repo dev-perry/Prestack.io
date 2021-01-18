@@ -53,10 +53,9 @@ exports.participationCreated = functions.firestore.document('users/{userID}/part
   })
   .then((uName) =>
     topPres.add({
-      duration: part.duration,
       prompt: part.prompt,
       title: part.title,
-      choices: part.choices,
+      choices: part.choices ? part.choices : null,
       type: part.type,
       owner: {
         displayName: uName,
@@ -72,6 +71,7 @@ exports.participationCreated = functions.firestore.document('users/{userID}/part
 .catch(error => console.log("Function fail:", error))
 });
 
+//// TODO: Update this to be able to handle edits to participation
 //Function for updating top-level participation when sub-level changes
 exports.participationChange = functions.firestore.document('users/{userID}/participation/{partID}')
 .onUpdate((change, context) => {
