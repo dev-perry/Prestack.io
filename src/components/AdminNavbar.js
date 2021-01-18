@@ -71,9 +71,13 @@ function AdminNavbar(props){
         <Navbar
           className={classnames(
             "navbar-top navbar-expand border-bottom",
-            { "navbar-dark bg-info": props.theme === "dark" },
-            { "navbar-light bg-secondary": props.theme === "light" }
+            // { "navbar-dark bg-info": props.theme === "dark" },
+            // { "navbar-light bg-secondary": props.theme === "light" }
           )}
+          style={{
+            backgroundColor: "#222831",
+            color: "#eeeeee"
+          }}
         >
           <Container fluid>
             <Collapse navbar isOpen={true}>
