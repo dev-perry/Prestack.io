@@ -7,11 +7,13 @@ import SlideShowBox from "./components/SlideShowBox";
 
 import Core from './layouts/Core';
 import Auth from './pages/Auth';
+import Responder from './pages/Responder';
 
 function App(props) {
   return (
     <Router>
       <Switch>
+        <Route path="/r/:assetID" render={props => <Responder {...props}/>}/>
         <Route path="/auth" render={props => <Auth {...props}/>} exact/>
         <Route path="/c" render={props => <Core {...props}/>}/>
         <PrivateRoute path="/s/player/:showid" component={SlideShowBox} isAuthenticated={props.isAuthenticated} isVerifying={props.isVerifying} exact/>
